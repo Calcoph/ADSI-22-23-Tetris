@@ -25,7 +25,7 @@ CREATE TABLE PARTIDA(
 CREATE TABLE PREMIO(
     nombre VARCHAR(20) NOT NULL,
     descripcion VARCHAR(200) NOT NULL,
-    progresoMax VARCHAR(20) NOT NULL,
+    progresoMax INT NOT NULL,
     PRIMARY KEY(nombre)
 );
 
@@ -39,7 +39,7 @@ CREATE TABLE DIFICULTAD(
 CREATE TABLE PREMIOOBTENIDO(
     nombrePremio VARCHAR(20) NOT NULL,
     nombreUsuario VARCHAR(20) NOT NULL,
-    progreso VARCHAR(20) NOT NULL,
+    progreso INT NOT NULL,
     PRIMARY KEY(nombrePremio,nombreUsuario)
     FOREIGN KEY(nombrePremio)
     REFERENCES PREMIO(nombre),
@@ -62,7 +62,7 @@ CREATE TABLE RANKING(
 CREATE TABLE PREMIOSENPARTIDA(
     idPartida INT NOT NULL, 
     nombrePremio VARCHAR(20) NOT NULL,
-    progreso VARCHAR(20) NOT NULL,
+    progreso INT NOT NULL,
     PRIMARY KEY(idPartida,nombrePremio),
     FOREIGN KEY(idPartida)
     REFERENCES PARTIDA(id)
