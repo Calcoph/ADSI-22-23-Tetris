@@ -19,8 +19,32 @@ public class Tetris extends JFrame {
 	private static final Logger logger = LogManager.getLogger(Tetris.class);
 
     private JLabel statusbar;
+    private static Tetris miTetris = null;
+    
+    public static Tetris getTetris() {
+    	if (miTetris == null) {
+    		miTetris = new Tetris();
+    	}
+    	return miTetris;
+    }
+    
+    public void start() {
+    	EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					miTetris.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+    }
+    
+    public void close() {
+    	miTetris.dispose();
+    }
 
-    public Tetris() {
+    private Tetris() {
 
         initUI();
     }
@@ -49,9 +73,7 @@ public class Tetris extends JFrame {
 
     	logger.info("Playing");
         EventQueue.invokeLater(() -> {
-
-            var game = new Tetris();
-            game.setVisible(true);
+            Tetris.getTetris().start();
         });
     }
 }

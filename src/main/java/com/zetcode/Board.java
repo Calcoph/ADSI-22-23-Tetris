@@ -2,10 +2,14 @@ package com.zetcode;
 
 import com.zetcode.Shape.Tetrominoe;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,6 +31,8 @@ public class Board extends JPanel {
     private JLabel statusbar;
     private Shape curPiece;
     private Tetrominoe[] board;
+    JButton guardarPartida = null;
+    JButton cancelar = null;
 
     public Board(Tetris parent) {
 
@@ -70,14 +76,42 @@ public class Board extends JPanel {
     private void pause() {
 
         isPaused = !isPaused;
-
         if (isPaused) {
 
             statusbar.setText("paused");
+            if (this.guardarPartida == null && this.cancelar == null) {
+            	this.guardarPartida = new JButton("Guardar Partida");
+            	guardarPartida.addActionListener(new ActionListener() {
+    				
+    				@Override
+    				public void actionPerformed(ActionEvent e) {
+    					System.out.println("Guardar Partida");
+    					Gestor.getGestor().guardarPartida();
+    					Tetris.getTetris().close();
+    					Menu.getMenu().start();
+    					
+    				}
+    			});
+            	this.add(guardarPartida, BorderLayout.NORTH);
+            	this.cancelar = new JButton("Cancelar");
+            	cancelar.addActionListener(new ActionListener() {
+    				
+    				@Override
+    				public void actionPerformed(ActionEvent e) {
+    					pause();
+    					
+    				}
+    			});
+                this.add(cancelar, BorderLayout.NORTH);
+            }
         } else {
-
+        	remove(this.guardarPartida);
+			remove(this.cancelar);
+        	this.guardarPartida = null;
+        	this.cancelar = null;
             statusbar.setText(String.valueOf(numLinesRemoved));
         }
+        
 
         repaint();
     }
