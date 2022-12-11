@@ -68,12 +68,4 @@ public class Tetris extends JFrame {
 
         return statusbar;
     }
-
-    public static void main(String[] args) {
-
-    	logger.info("Playing");
-        EventQueue.invokeLater(() -> {
-            Tetris.getTetris().start();
-        });
-    }
 }
