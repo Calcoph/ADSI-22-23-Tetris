@@ -1,6 +1,7 @@
 package com.zetcode;
 
 import org.json.JSONObject;
+import java.sql.ResultSet;
 
 public class Gestor {
 	private static Gestor miGestor = null;
@@ -17,20 +18,33 @@ public class Gestor {
 	}
 	
 	public void guardarPartida() {
+		ResultSet resultado;
+		//Obtener los datos necesarios
 		Usuario usuario = GestorUsuario.getGestorUsuario().obtenerUsuarioActual();
 		String nombreUsuario = GestorUsuario.getGestorUsuario().getNombreUsuario(usuario);
 		Partida partidaUsuario = GestorUsuario.getGestorUsuario().obtenerPartidaUsuario(usuario);
-		GestorPremios.comprobarProgresoPremios();
 		int idPartida = GestorPartida.getGestorPartida().obtenerIdPartida(partidaUsuario);
 		int puntos = GestorPartida.getGestorPartida().obtenerPuntos(partidaUsuario);
-		JSONObject estadoTablero = GestorPartida.getGestorPartida().obtenerEstadoTablero(partidaUsuario); //Guardar el JSON como un string en la base de datos y luego parsear al cargar
+		JSONObject estadoTableroJSON = GestorPartida.getGestorPartida().obtenerEstadoTablero(partidaUsuario); //Guardar el JSON como un string en la base de datos y luego parsear al cargar
+		String estadoTablero = estadoTableroJSON.toString();
+		String dificultad = GestorDificultad.getGestorDificultad().buscarDificultad(usuario).getNombre();
+		GestorPremios.comprobarProgresoPremios(); //Comprobar el progreso de los premios
 		ArrayList<Premio> listaPremios = GestorPremios.obtenerPremios(nombreUsuario);
-		Dificultad dificultad = GestorDificultad.getGestorDificultad().buscarDificultad(usuario);
-		// TO DO: execSql con los datos de Partida
+		resultado = SGBD.execResultSQL("SELECT * FROM PARTIDA WHERE id =="+idPartida);
+		if (resultado == null) { //INSERT
+			SGBD.execVoidSQL(String.format("INSERT INTO PARTIDA VALUES(%d,%d,%s,%s,%s)",idPartida,puntos,estadoTablero,nombreUsuario,dificultad));
+		} else { //UPDATE
+			SGBD.execVoidSQL(String.format("UPDATE PARTIDA SET puntos=%d, estadoTablero='%s' WHERE id=%d)",puntos,estadoTablero,idPartida));
+		}
 		for (Premio premio : listaPremios) {
-			String nombre = premio.getNombre();
+			String nombrePremio = premio.getNombre();
 			int progreso = premio.getProgreso();
-			//execSQL de PremiosEnPartida con idPartida,nombre,progreso
+			resultado = SGBD.execResultSQL("SELECT * FROM PREMIOSENPARTIDA WHERE id =="+idPartida+"nombrePremio="+nombrePremio);
+			if (resultado == null) { //INSERT
+				SGBD.execVoidSQL(String.format("INSERT INTO PREMIOSENPARTIDA VALUES(%d,'%s',%d)",idPartida,nombrePremio,progreso));
+			} else { //UPDATE
+				SGBD.execVoidSQL(String.format("UPDATE PREMIOSENPARTIDA SET progreso=%d)",progreso));
+			}
 		}
 	}
 	
