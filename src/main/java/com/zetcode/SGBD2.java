@@ -37,7 +37,7 @@ public class SGBD {
         }
     }
 
-    public void execSQLVoid(String pSentencia)  /** Existe este método void porque en operaciones como UPDATE no pueden devolver un valor, y saltaría un error **/
+    public void execSQLVoid(String pSentencia)  /** Existe este mÃ©todo void porque en operaciones como UPDATE no pueden devolver un valor, y saltarÃ­a un error **/
     {
         try
         {
