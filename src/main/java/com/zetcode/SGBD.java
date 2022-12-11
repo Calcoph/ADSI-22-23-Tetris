@@ -33,8 +33,7 @@ public class SGBD {
     }
 
     private static void inicializar() {
-        conexion = SGBD.getConnection();
-        String JDBC_DRIVER = "org.h2.Driver";
+        /*String JDBC_DRIVER = "org.h2.Driver";
         try {
             Class.forName(JDBC_DRIVER);
         } catch (Exception e) {
@@ -45,8 +44,9 @@ public class SGBD {
             DB_URL = "jdbc:h2:" + new File("test").getCanonicalPath();
         } catch (Exception e) {
             System.err.println(e);
-        }
-        
+        }*/
+    	
+    	conexion = SGBD.getConnection();
         try {
         	ResultSet resultado = SGBD.execResultSQL("SELECT * FROM PREMIO");
             resultado.next();
