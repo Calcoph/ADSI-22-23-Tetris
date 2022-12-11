@@ -6,6 +6,9 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import javax.swing.JSeparator;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
@@ -66,6 +69,16 @@ public class Menu extends JFrame {
 		contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
 		JButton cargarPartida = new JButton("Cargar Partida");
 		cargarPartida.setAlignmentX(CENTER_ALIGNMENT);
+		cargarPartida.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				Menu.getMenu().close();
+				Gestor.getGestor().cargarPartida();
+				Tetris.getTetris().start();
+				
+			}
+		});
 		contentPane.add(cargarPartida);
 		contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
 		JButton personalizarMapa = new JButton("Personalizar Mapa");
@@ -82,5 +95,8 @@ public class Menu extends JFrame {
 		contentPane.add(Box.createRigidArea(new Dimension(5, 0)));
 		
 	}
-
+	
+	public static void main(String[] args) {
+    	Menu.getMenu().start();
+    }
 }
