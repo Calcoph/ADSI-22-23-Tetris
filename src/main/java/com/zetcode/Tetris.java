@@ -8,6 +8,12 @@ import javax.swing.JLabel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 /*
 Java Tetris game clone
 
@@ -46,8 +52,7 @@ public class Tetris extends JFrame {
     }
 
     public static void main(String[] args) {
-
-    	logger.info("Playing");
+        logger.info("Playing");
         EventQueue.invokeLater(() -> {
 
             var game = new Tetris();
