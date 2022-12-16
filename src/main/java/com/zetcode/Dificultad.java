@@ -1,171 +1,30 @@
 package com.zetcode;
 
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.BorderLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JLabel;
-import javax.swing.JButton;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.SwingConstants;
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import java.awt.Font;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
-import java.awt.Color;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-
-public class Dificultad extends JFrame {
+public class Dificultad {
 	
-	private JPanel contentPane;
-	private PropertyChangeSupport support;
-	public static int dificultad;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Dificultad frame = new Dificultad();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	private static int BOARD_WIDTH;
+	private static int BOARD_HEIGHT;
+	private static int PERIOD_INTERVAL;
+	
+	public static int getBOARD_WIDTH() {
+		return BOARD_WIDTH;
 	}
-
-	/**
-	 * Create the frame.
-	 */
-	public Dificultad() {
-		setBackground(new Color(221, 160, 221));
-		initialize();
-		support = new PropertyChangeSupport(this);
+	public static void setBOARD_WIDTH(int bOARD_WIDTH) {
+		BOARD_WIDTH = bOARD_WIDTH;
 	}
 	
-	public void initialize() {
-		setResizable(false);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 271);
-		contentPane = new JPanel();
-		contentPane.setBackground(new Color(153, 153, 153));
-		contentPane.setForeground(new Color(153, 153, 102));
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-
-		setContentPane(contentPane);
-		contentPane.setLayout(new BorderLayout(0, 0));
-		
-		JPanel titulo = new JPanel();
-		contentPane.add(titulo, BorderLayout.NORTH);
-		titulo.setBackground(new Color(153, 153, 153));
-		
-		JLabel lblDificultad = new JLabel("Elige el nivel");
-		lblDificultad.setForeground(new Color(153, 0, 153));
-		lblDificultad.setFont(new Font("Dialog", Font.BOLD, 30));
-		titulo.add(lblDificultad);
-		
-		JPanel Contenido = new JPanel();
-		contentPane.add(Contenido, BorderLayout.CENTER);
-		Contenido.setBackground(new Color(153, 153, 153));
-		
-		JLabel lblSelectorDificultad = new JLabel("Dificutad");
-		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"0. Fácil", "1. Normal", "2. Difícil"}));
-		comboBox.addActionListener(new ActionListener() {
-
-            public void actionPerformed(ActionEvent e) {
-						if(comboBox.getSelectedItem().equals("0. Facil")) {
-							dificultad = 0;
-						} else if(comboBox.getSelectedItem().equals("1. Normal")) {
-							dificultad = 1;
-						} else if(comboBox.getSelectedItem().equals("2. Difícil")) {
-							dificultad = 2;
-						}
-                }
-			});
-		
-		JLabel lblinfo = new JLabel("<html>0. Fácil - Tablero alto y ancho y velocidad de caida de los bloques lenta.<p>1. Normal - Tablero con altura reducida y velocidad de caida de los bloques aumentada.<p>2. Difícil - Altura y anchura del tablero reducida y velocidad de caida de los bloques aún más rápida<html>");
-		lblinfo.setToolTipText("");
-		GroupLayout gl_Contenido = new GroupLayout(Contenido);
-		gl_Contenido.setHorizontalGroup(
-			gl_Contenido.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_Contenido.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_Contenido.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_Contenido.createSequentialGroup()
-							.addComponent(lblinfo, GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
-							.addContainerGap())
-						.addGroup(Alignment.TRAILING, gl_Contenido.createSequentialGroup()
-							.addComponent(lblSelectorDificultad)
-							.addGap(59)
-							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(123))))
-		);
-		gl_Contenido.setVerticalGroup(
-			gl_Contenido.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_Contenido.createSequentialGroup()
-					.addComponent(lblinfo, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
-					.addGap(29)
-					.addGroup(gl_Contenido.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblSelectorDificultad)
-						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-		);
-		Contenido.setLayout(gl_Contenido);
-		
-		JPanel Volver = new JPanel();
-		contentPane.add(Volver, BorderLayout.SOUTH);
-		Volver.setBackground(new Color(153, 153, 153));
-		
-		JButton btnVolver = new JButton("Volver");
-		btnVolver.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Menu volverMenu = new Menu();
-				volverMenu.setVisible(true);
-				Dificultad.this.dispose();
-			}
-		});
-		
-		JButton btnJugar = new JButton("Jugar");
-		btnJugar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Tetris jugar = new Tetris();
-				jugar.setVisible(true);
-				Dificultad.this.dispose();
-			}
-		});
-		btnJugar.setHorizontalAlignment(SwingConstants.RIGHT);
-		GroupLayout gl_Volver = new GroupLayout(Volver);
-		gl_Volver.setHorizontalGroup(
-			gl_Volver.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_Volver.createSequentialGroup()
-					.addContainerGap(112, Short.MAX_VALUE)
-					.addComponent(btnVolver)
-					.addGap(91)
-					.addComponent(btnJugar)
-					.addGap(99))
-		);
-		gl_Volver.setVerticalGroup(
-			gl_Volver.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_Volver.createSequentialGroup()
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGroup(gl_Volver.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnVolver)
-						.addComponent(btnJugar)))
-		);
-		Volver.setLayout(gl_Volver);
+	public static int getBOARD_HEIGHT() {
+		return BOARD_HEIGHT;
+	}
+	public static void setBOARD_HEIGHT(int bOARD_HEIGHT) {
+		BOARD_HEIGHT = bOARD_HEIGHT;
 	}
 	
-	public void addObserver(PropertyChangeListener pList) {
-		support.addPropertyChangeListener(pList);
+	public static int getPERIOD_INTERVAL() {
+		return PERIOD_INTERVAL;
 	}
+	public static void setPERIOD_INTERVAL(int pERIOD_INTERVAL) {
+		PERIOD_INTERVAL = pERIOD_INTERVAL;
+	}
+	
 }

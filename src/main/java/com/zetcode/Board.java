@@ -14,10 +14,6 @@ import java.awt.event.KeyEvent;
 
 public class Board extends JPanel {
 
-    private int BOARD_WIDTH;
-    private int BOARD_HEIGHT;
-    private int PERIOD_INTERVAL;
-
     private Timer timer;
     private boolean isFallingFinished = false;
     private boolean isPaused = false;
@@ -29,25 +25,11 @@ public class Board extends JPanel {
     private Tetrominoe[] board;
 
     public Board(Tetris parent) {
-    	actualizarDificultad();
+    	GestorDificultad.actualizarDificultad();
         initBoard(parent);
     }
     
-    private void actualizarDificultad() {
-    	if(Dificultad.dificultad == 0) {
-    		BOARD_WIDTH = 15;
-    	    BOARD_HEIGHT = 27;
-    	    PERIOD_INTERVAL = 400;
-    	} else if(Dificultad.dificultad == 1) {
-    	    BOARD_WIDTH = 15;
-    	    BOARD_HEIGHT = 22;
-    	    PERIOD_INTERVAL = 300;
-    	} else if(Dificultad.dificultad == 2) {
-    		BOARD_WIDTH = 10;
-    	    BOARD_HEIGHT = 22;
-    	    PERIOD_INTERVAL = 150;
-    	}
-    }
+    
 
     private void initBoard(Tetris parent) {
 
@@ -58,28 +40,28 @@ public class Board extends JPanel {
 
     private int squareWidth() {
 
-        return (int) getSize().getWidth() / BOARD_WIDTH;
+        return (int) getSize().getWidth() / Dificultad.getBOARD_WIDTH();
     }
 
     private int squareHeight() {
 
-        return (int) getSize().getHeight() / BOARD_HEIGHT;
+        return (int) getSize().getHeight() / Dificultad.getBOARD_HEIGHT();
     }
 
     private Tetrominoe shapeAt(int x, int y) {
 
-        return board[(y * BOARD_WIDTH) + x];
+        return board[(y * Dificultad.getBOARD_WIDTH()) + x];
     }
 
     void start() {
 
         curPiece = new Shape();
-        board = new Tetrominoe[BOARD_WIDTH * BOARD_HEIGHT];
+        board = new Tetrominoe[Dificultad.getBOARD_WIDTH() * Dificultad.getBOARD_HEIGHT()];
 
         clearBoard();
         newPiece();
 
-        timer = new Timer(PERIOD_INTERVAL, new GameCycle());
+        timer = new Timer(Dificultad.getPERIOD_INTERVAL(), new GameCycle());
         timer.start();
     }
 
@@ -108,13 +90,13 @@ public class Board extends JPanel {
     private void doDrawing(Graphics g) {
 
         var size = getSize();
-        int boardTop = (int) size.getHeight() - BOARD_HEIGHT * squareHeight();
+        int boardTop = (int) size.getHeight() - Dificultad.getBOARD_HEIGHT() * squareHeight();
 
-        for (int i = 0; i < BOARD_HEIGHT; i++) {
+        for (int i = 0; i < Dificultad.getBOARD_HEIGHT(); i++) {
 
-            for (int j = 0; j < BOARD_WIDTH; j++) {
+            for (int j = 0; j < Dificultad.getBOARD_WIDTH(); j++) {
 
-                Tetrominoe shape = shapeAt(j, BOARD_HEIGHT - i - 1);
+                Tetrominoe shape = shapeAt(j, Dificultad.getBOARD_HEIGHT() - i - 1);
 
                 if (shape != Tetrominoe.NoShape) {
 
@@ -132,7 +114,7 @@ public class Board extends JPanel {
                 int y = curY - curPiece.y(i);
 
                 drawSquare(g, x * squareWidth(),
-                        boardTop + (BOARD_HEIGHT - y - 1) * squareHeight(),
+                        boardTop + (Dificultad.getBOARD_HEIGHT() - y - 1) * squareHeight(),
                         curPiece.getShape());
             }
         }
@@ -165,7 +147,7 @@ public class Board extends JPanel {
 
     private void clearBoard() {
 
-        for (int i = 0; i < BOARD_HEIGHT * BOARD_WIDTH; i++) {
+        for (int i = 0; i < Dificultad.getBOARD_HEIGHT() * Dificultad.getBOARD_WIDTH(); i++) {
 
             board[i] = Tetrominoe.NoShape;
         }
@@ -177,7 +159,7 @@ public class Board extends JPanel {
 
             int x = curX + curPiece.x(i);
             int y = curY - curPiece.y(i);
-            board[(y * BOARD_WIDTH) + x] = curPiece.getShape();
+            board[(y * Dificultad.getBOARD_WIDTH()) + x] = curPiece.getShape();
         }
 
         removeFullLines();
@@ -191,8 +173,8 @@ public class Board extends JPanel {
     private void newPiece() {
 
         curPiece.setRandomShape();
-        curX = BOARD_WIDTH / 2 + 1;
-        curY = BOARD_HEIGHT - 1 + curPiece.minY();
+        curX = Dificultad.getBOARD_WIDTH() / 2 + 1;
+        curY = Dificultad.getBOARD_HEIGHT() - 1 + curPiece.minY();
 
         if (!tryMove(curPiece, curX, curY)) {
 
@@ -211,7 +193,7 @@ public class Board extends JPanel {
             int x = newX + newPiece.x(i);
             int y = newY - newPiece.y(i);
 
-            if (x < 0 || x >= BOARD_WIDTH || y < 0 || y >= BOARD_HEIGHT) {
+            if (x < 0 || x >= Dificultad.getBOARD_WIDTH() || y < 0 || y >= Dificultad.getBOARD_HEIGHT()) {
 
                 return false;
             }
@@ -235,11 +217,11 @@ public class Board extends JPanel {
 
         int numFullLines = 0;
 
-        for (int i = BOARD_HEIGHT - 1; i >= 0; i--) {
+        for (int i = Dificultad.getBOARD_HEIGHT() - 1; i >= 0; i--) {
 
             boolean lineIsFull = true;
 
-            for (int j = 0; j < BOARD_WIDTH; j++) {
+            for (int j = 0; j < Dificultad.getBOARD_WIDTH(); j++) {
 
                 if (shapeAt(j, i) == Tetrominoe.NoShape) {
 
@@ -252,9 +234,9 @@ public class Board extends JPanel {
 
                 numFullLines++;
 
-                for (int k = i; k < BOARD_HEIGHT - 1; k++) {
-                    for (int j = 0; j < BOARD_WIDTH; j++) {
-                        board[(k * BOARD_WIDTH) + j] = shapeAt(j, k + 1);
+                for (int k = i; k < Dificultad.getBOARD_HEIGHT() - 1; k++) {
+                    for (int j = 0; j < Dificultad.getBOARD_WIDTH(); j++) {
+                        board[(k * Dificultad.getBOARD_WIDTH()) + j] = shapeAt(j, k + 1);
                     }
                 }
             }

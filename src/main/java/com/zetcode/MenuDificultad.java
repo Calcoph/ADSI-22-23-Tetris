@@ -1,197 +1,171 @@
 package com.zetcode;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.awt.Font;
-import java.awt.SystemColor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeSupport;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.JTable;
-import javax.swing.JTextPane;
-import javax.swing.SwingConstants;
+import java.awt.BorderLayout;
+import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
+import javax.swing.JButton;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
 import javax.swing.JComboBox;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.GroupLayout;
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
+import java.awt.Font;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MenuDificultad extends JFrame {
-
+	
 	private JPanel contentPane;
-	private JPanel Título;
-	private JPanel Contenido;
-	private JPanel Volver;
-	private JLabel lblNewLabel;
-	private JLabel lblNewLabel_1;
-	private JComboBox comboBox;
-	private JButton btnNewButton;
-	private JTextPane txtpnModificaLaDificultad;
-	public int dificultad;
 	private PropertyChangeSupport support;
+	public static int dificultad;
+
 	/**
 	 * Launch the application.
 	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					MenuDificultad frame = new MenuDificultad();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	/**
 	 * Create the frame.
 	 */
 	public MenuDificultad() {
+		setBackground(new Color(221, 160, 221));
 		initialize();
 		support = new PropertyChangeSupport(this);
 	}
-		
-	private void initialize() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(500, 210, 459, 364);
+	
+	public void initialize() {
 		setResizable(false);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 271);
 		contentPane = new JPanel();
-		contentPane.setBackground(new Color(238, 130, 238));
+		contentPane.setBackground(new Color(153, 153, 153));
+		contentPane.setForeground(new Color(153, 153, 102));
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
 		setContentPane(contentPane);
 		contentPane.setLayout(new BorderLayout(0, 0));
-		contentPane.add(getTítulo(), BorderLayout.NORTH);
-		contentPane.add(getContenido(), BorderLayout.CENTER);
-		contentPane.add(getVolver(), BorderLayout.SOUTH);
-		setTitle("Dificultad");
-	}
+		
+		JPanel titulo = new JPanel();
+		contentPane.add(titulo, BorderLayout.NORTH);
+		titulo.setBackground(new Color(153, 153, 153));
+		
+		JLabel lblDificultad = new JLabel("Elige el nivel");
+		lblDificultad.setForeground(new Color(153, 0, 153));
+		lblDificultad.setFont(new Font("Dialog", Font.BOLD, 30));
+		titulo.add(lblDificultad);
+		
+		JPanel Contenido = new JPanel();
+		contentPane.add(Contenido, BorderLayout.CENTER);
+		Contenido.setBackground(new Color(153, 153, 153));
+		
+		JLabel lblSelectorDificultad = new JLabel("Dificutad");
+		
+		JComboBox comboBox = new JComboBox();
+		comboBox.setModel(new DefaultComboBoxModel(new String[] {"0. Fácil", "1. Normal", "2. Difícil"}));
+		comboBox.addActionListener(new ActionListener() {
 
+            public void actionPerformed(ActionEvent e) {
+						if(comboBox.getSelectedItem().equals("0. Facil")) {
+							dificultad = 0;
+						} else if(comboBox.getSelectedItem().equals("1. Normal")) {
+							dificultad = 1;
+						} else if(comboBox.getSelectedItem().equals("2. Difícil")) {
+							dificultad = 2;
+						}
+                }
+			});
+		
+		JLabel lblinfo = new JLabel("<html>0. Fácil - Tablero alto y ancho y velocidad de caida de los bloques lenta.<p>1. Normal - Tablero con altura reducida y velocidad de caida de los bloques aumentada.<p>2. Difícil - Altura y anchura del tablero reducida y velocidad de caida de los bloques aún más rápida<html>");
+		lblinfo.setToolTipText("");
+		GroupLayout gl_Contenido = new GroupLayout(Contenido);
+		gl_Contenido.setHorizontalGroup(
+			gl_Contenido.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_Contenido.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_Contenido.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_Contenido.createSequentialGroup()
+							.addComponent(lblinfo, GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
+							.addContainerGap())
+						.addGroup(Alignment.TRAILING, gl_Contenido.createSequentialGroup()
+							.addComponent(lblSelectorDificultad)
+							.addGap(59)
+							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(123))))
+		);
+		gl_Contenido.setVerticalGroup(
+			gl_Contenido.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_Contenido.createSequentialGroup()
+					.addComponent(lblinfo, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+					.addGap(29)
+					.addGroup(gl_Contenido.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblSelectorDificultad)
+						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+		);
+		Contenido.setLayout(gl_Contenido);
+		
+		JPanel Volver = new JPanel();
+		contentPane.add(Volver, BorderLayout.SOUTH);
+		Volver.setBackground(new Color(153, 153, 153));
+		
+		JButton btnVolver = new JButton("Volver");
+		btnVolver.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Menu volverMenu = new Menu();
+				volverMenu.setVisible(true);
+				MenuDificultad.this.dispose();
+			}
+		});
+		
+		JButton btnJugar = new JButton("Jugar");
+		btnJugar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Tetris jugar = new Tetris();
+				jugar.setVisible(true);
+				MenuDificultad.this.dispose();
+			}
+		});
+		btnJugar.setHorizontalAlignment(SwingConstants.RIGHT);
+		GroupLayout gl_Volver = new GroupLayout(Volver);
+		gl_Volver.setHorizontalGroup(
+			gl_Volver.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_Volver.createSequentialGroup()
+					.addContainerGap(112, Short.MAX_VALUE)
+					.addComponent(btnVolver)
+					.addGap(91)
+					.addComponent(btnJugar)
+					.addGap(99))
+		);
+		gl_Volver.setVerticalGroup(
+			gl_Volver.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_Volver.createSequentialGroup()
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addGroup(gl_Volver.createParallelGroup(Alignment.LEADING)
+						.addComponent(btnVolver)
+						.addComponent(btnJugar)))
+		);
+		Volver.setLayout(gl_Volver);
+	}
+	
 	public void addObserver(PropertyChangeListener pList) {
 		support.addPropertyChangeListener(pList);
-	}
-
-	private JPanel getTítulo() {
-		if (Título == null) {
-			Título = new JPanel();
-			Título.setBackground(new Color(255, 218, 185));
-			Título.add(getLblNewLabel());
-		}
-		return Título;
-	}
-	private JPanel getContenido() {
-		if (Contenido == null) {
-			Contenido = new JPanel();
-			Contenido.setBackground(new Color(255, 218, 185));
-			GroupLayout gl_Contenido = new GroupLayout(Contenido);
-			gl_Contenido.setHorizontalGroup(
-				gl_Contenido.createParallelGroup(Alignment.TRAILING)
-					.addGroup(Alignment.LEADING, gl_Contenido.createSequentialGroup()
-						.addGap(70)
-						.addComponent(getLblNewLabel_1(), GroupLayout.DEFAULT_SIZE, 126, Short.MAX_VALUE)
-						.addGap(67)
-						.addComponent(getComboBox(), 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addGap(84))
-					.addGroup(Alignment.LEADING, gl_Contenido.createSequentialGroup()
-						.addGap(92)
-						.addComponent(getTxtpnModificaLaDificultad(), GroupLayout.PREFERRED_SIZE, 248, GroupLayout.PREFERRED_SIZE)
-						.addContainerGap(93, Short.MAX_VALUE))
-			);
-			gl_Contenido.setVerticalGroup(
-				gl_Contenido.createParallelGroup(Alignment.TRAILING)
-					.addGroup(gl_Contenido.createSequentialGroup()
-						.addGap(22)
-						.addComponent(getTxtpnModificaLaDificultad(), GroupLayout.PREFERRED_SIZE, 90, GroupLayout.PREFERRED_SIZE)
-						.addGap(18)
-						.addGroup(gl_Contenido.createParallelGroup(Alignment.BASELINE)
-							.addComponent(getComboBox(), GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addComponent(getLblNewLabel_1(), GroupLayout.DEFAULT_SIZE, 23, Short.MAX_VALUE))
-						.addContainerGap())
-			);
-			Contenido.setLayout(gl_Contenido);
-		}
-		return Contenido;
-	}
-	private JPanel getVolver() {
-		if (Volver == null) {
-			Volver = new JPanel();
-			Volver.setBackground(new Color(255, 218, 185));
-			GroupLayout gl_Volver = new GroupLayout(Volver);
-			gl_Volver.setHorizontalGroup(
-				gl_Volver.createParallelGroup(Alignment.LEADING)
-					.addGroup(gl_Volver.createSequentialGroup()
-						.addGap(170)
-						.addComponent(getBtnNewButton(), GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addGap(184))
-			);
-			gl_Volver.setVerticalGroup(
-				gl_Volver.createParallelGroup(Alignment.LEADING)
-					.addGroup(gl_Volver.createSequentialGroup()
-						.addComponent(getBtnNewButton(), GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addContainerGap())
-			);
-			Volver.setLayout(gl_Volver);
-		}
-		return Volver;
-	}
-	private JLabel getLblNewLabel() {
-		if (lblNewLabel == null) {
-			lblNewLabel = new JLabel("Seleccionar Dificultad");
-			lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 30));
-		}
-		return lblNewLabel;
-	}
-	private JLabel getLblNewLabel_1() {
-		if (lblNewLabel_1 == null) {
-			lblNewLabel_1 = new JLabel("Dificultad");
-			lblNewLabel_1.setHorizontalAlignment(SwingConstants.CENTER);
-			lblNewLabel_1.setFont(new Font("Tahoma", Font.BOLD, 15));
-		}
-		return lblNewLabel_1;
-	}
-	private JComboBox getComboBox() {
-		if (comboBox == null) {
-			comboBox = new JComboBox();
-			comboBox.addItem("0. Facil");
-            comboBox.addItem("1. Normal");
-            comboBox.addItem("2. Dificil");
-			comboBox.addActionListener(new ActionListener() {
-
-                public void actionPerformed(ActionEvent e) {
-							if(comboBox.getSelectedItem().equals("0. Facil")) {
-								dificultad = 0;
-							} else if(comboBox.getSelectedItem().equals("1. Normal")) {
-								dificultad = 1;
-							} else {
-								dificultad = 2;
-							}System.out.println(dificultad);
-                    } 
-            } );
-		}
-		return comboBox;
-	}
-	private JButton getBtnNewButton() {
-        if (btnNewButton == null) {
-            btnNewButton = new JButton("Jugar");
-            btnNewButton.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    volver();
-                }
-            });
-        }
-        return btnNewButton;
-    }
-
-	public void volver() {
-		support.firePropertyChange("Dificultad", false, dificultad);
-		this.dispose();
-	}
-
-	private JTextPane getTxtpnModificaLaDificultad() {
-		if (txtpnModificaLaDificultad == null) {
-			txtpnModificaLaDificultad = new JTextPane();
-			txtpnModificaLaDificultad.setBackground(new Color(255, 255, 240));
-			txtpnModificaLaDificultad.setFont(new Font("Tahoma", Font.PLAIN, 15));
-			txtpnModificaLaDificultad.setText("Modifica la dificultad aumentando o disminuyendo el tamaño del tablero y la veolcidad de la del bloque");
-		}
-		return txtpnModificaLaDificultad;
 	}
 }

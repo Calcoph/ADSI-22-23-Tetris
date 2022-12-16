@@ -58,7 +58,7 @@ public class Menu extends JFrame{
 		JButton nuevaPartida = new JButton("Nueva Partida");
 		nuevaPartida.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Dificultad abrirDificultad = new Dificultad();
+				MenuDificultad abrirDificultad = new MenuDificultad();
 				abrirDificultad.setVisible(true);
 				Menu.this.dispose();
 			}
