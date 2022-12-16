@@ -37,7 +37,7 @@ public class Board extends JPanel {
     	if(Dificultad.dificultad == 0) {
     		BOARD_WIDTH = 15;
     	    BOARD_HEIGHT = 27;
-    	    PERIOD_INTERVAL = 350;
+    	    PERIOD_INTERVAL = 400;
     	} else if(Dificultad.dificultad == 1) {
     	    BOARD_WIDTH = 15;
     	    BOARD_HEIGHT = 22;
@@ -45,7 +45,7 @@ public class Board extends JPanel {
     	} else if(Dificultad.dificultad == 2) {
     		BOARD_WIDTH = 10;
     	    BOARD_HEIGHT = 22;
-    	    PERIOD_INTERVAL = 200;
+    	    PERIOD_INTERVAL = 150;
     	}
     }
 
