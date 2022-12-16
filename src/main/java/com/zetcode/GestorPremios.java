@@ -17,7 +17,7 @@ public class GestorPremios
         return miGestorPrem;  
     }
 
-    public ArrayList<Premio> obtenerPremios(String nombre)
+    public ArrayList<Premio> obtenerPremios(String nombre) //Este metodo implementado en Premios
     {
         ArrayList<Premio> listaPremActual = new ArrayList<Premio>();
         return listaPremActual;
