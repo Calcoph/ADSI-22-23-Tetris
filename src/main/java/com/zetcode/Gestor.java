@@ -43,7 +43,7 @@ public class Gestor
         Integer puntosUsu = gestorUsu.obtenerPuntosUsu(usuActivo);
         ArrayList<Premio> listaPremiosUsu = gestorUsu.obtListaPremios(usuActivo);
         ArrayList<String> listaNombresPrem = gestorPrem.obtenerPremiosCompletados(nombreUsu, listaPremiosUsu);
-        String msgCompartir = this.configurarMensaje(nombreUsu, puntosUsu, listaNombresPrem);
+        String msgCompartir = this.configurarMensaje(nombreUsu, puntosUsu, listaNombresPrem, pBoton);
         if (pBoton.equals("Twitter"))
         {
             msgCompartir = "https://twitter.com/intent/tweet?text="+msgCompartir;
@@ -75,7 +75,7 @@ public class Gestor
         }
     }    
 
-    private String configurarMensaje(String nomUsu, Integer puntos, ArrayList<String> listaPremios)
+    private String configurarMensaje(String nomUsu, Integer puntos, ArrayList<String> listaPremios, String pDirec)
     {
         nomUsu = encodeValue(nomUsu);
         String msgFinal = "Enhorabuena "+nomUsu+"! Este jugador ha completado una partida del Tetris con "+puntos+" puntazos. Ademas ha conseguido los siguientes premios: ";
@@ -88,6 +88,20 @@ public class Gestor
         if (msgFinal.length()>280)
         {
             msgFinal = "Enhorabuena "+nomUsu+"! Este jugador ha completado una partida del Tetris con "+puntos+" puntazos. Ademas ha conseguido "+listaPremios.size()+" premios!";
+        }
+        if (pDirec.equals("Twitter")
+        {
+            String msgFinal = "Enhorabuena%20"+nomUsu+"!%20Este%20jugador%20ha%20completado%20una%20partida%20del%20Tetris%20con%20"+puntos+"%20puntazos.%20Ademas%20ha%20conseguido%20los%20siguientes%20premios:%20";
+            int t = 0;
+            while (t<listaPremios.size() && msgFinal.length()<=300)
+            {
+                msgFinal = msgFinal+listaPremios.get(t)+",%20";
+                t++;
+            }
+            if (msgFinal.length()>280)
+            {
+                msgFinal = "Enhorabuena%20"+nomUsu+"!%20Este%20jugador%20ha%20completado%20una%20partida%20del%20Tetris%20con%20"+puntos+"%20puntazos.%20Ademas%20ha%20conseguido%20"+listaPremios.size()+"%20premios!";
+            }   
         }
         return msgFinal;
     }
