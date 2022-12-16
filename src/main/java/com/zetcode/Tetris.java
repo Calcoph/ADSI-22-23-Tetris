@@ -4,9 +4,16 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JButton;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /*
 Java Tetris game clone
@@ -33,6 +40,9 @@ public class Tetris extends JFrame {
         var board = new Board(this);
         add(board);
         board.start();
+        
+        JButton guardarPartida = new JButton("Pausar Partida");
+        add(guardarPartida, BorderLayout.NORTH);
 
         setTitle("Tetris");
         setSize(200, 400);
@@ -46,8 +56,7 @@ public class Tetris extends JFrame {
     }
 
     public static void main(String[] args) {
-
-    	logger.info("Playing");
+        logger.info("Playing");
         EventQueue.invokeLater(() -> {
 
             var game = new Tetris();
