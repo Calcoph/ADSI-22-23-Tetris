@@ -6,7 +6,7 @@ CREATE TABLE USUARIO(
 );
 
 CREATE TABLE DIFICULTAD(
-    nivelDificultad VARCHAR(20) NOT NULL,
+    nivelDificultad INT NOT NULL,
     velocidadLadrillos DOUBLE PRECISION NOT NULL, --Ejemplo: 23.47
     tamanoTablero VARCHAR(5) NOT NULL, --Ejemplo: 05x20
     PRIMARY KEY(nivelDificultad)
@@ -17,7 +17,7 @@ CREATE TABLE PARTIDA(
     puntos INT NOT NULL,
     estadoTablero VARCHAR(8000) NOT NULL,
     nombreUsuario VARCHAR(20) NOT NULL,
-    dificultad VARCHAR(20) NOT NULL,
+    dificultad INT NOT NULL,
     PRIMARY KEY(id),
     FOREIGN KEY(nombreUsuario)
     REFERENCES USUARIO(nombreUsuario),
@@ -46,10 +46,10 @@ CREATE TABLE PREMIOOBTENIDO(
 
 CREATE TABLE RANKING(
     nombreUsuario VARCHAR(20) NOT NULL,
-    nivelDificultad VARCHAR(20) NOT NULL,
+    nivelDificultad INT NOT NULL,
     fechaHora DATETIME NOT NULL,
     puntos INT NOT NULL,
-    PRIMARY KEY(nombreUsuario,nivelDificultad),
+    PRIMARY KEY(nombreUsuario,nivelDificultad,fechaHora),
     FOREIGN KEY(nombreUsuario)
     REFERENCES USUARIO(nombreUsuario),
     FOREIGN KEY(nivelDificultad)
