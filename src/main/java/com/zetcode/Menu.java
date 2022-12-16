@@ -15,9 +15,15 @@ import javax.swing.JButton;
 import javax.swing.border.EmptyBorder;
 import javax.swing.BorderFactory;
 
-public class Menu extends JFrame {
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+
+public class Menu extends JFrame{
 
 	private JPanel contentPane;
+	private JButton nuevaPartida;
 
 	/**
 	 * Launch the application.
@@ -50,6 +56,13 @@ public class Menu extends JFrame {
 		contentPane.add(titulo);
 		contentPane.add(Box.createRigidArea(new Dimension(0, 20)));
 		JButton nuevaPartida = new JButton("Nueva Partida");
+		nuevaPartida.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Dificultad abrirDificultad = new Dificultad();
+				abrirDificultad.setVisible(true);
+				Menu.this.dispose();
+			}
+		});
 		nuevaPartida.setAlignmentX(CENTER_ALIGNMENT);
 		contentPane.add(nuevaPartida);
 		contentPane.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -71,5 +84,6 @@ public class Menu extends JFrame {
 		contentPane.add(Box.createRigidArea(new Dimension(5, 0)));
 		
 	}
+
 
 }

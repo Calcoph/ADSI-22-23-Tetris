@@ -14,9 +14,9 @@ import java.awt.event.KeyEvent;
 
 public class Board extends JPanel {
 
-    private final int BOARD_WIDTH = 10;
-    private final int BOARD_HEIGHT = 22;
-    private final int PERIOD_INTERVAL = 300;
+    private int BOARD_WIDTH;
+    private int BOARD_HEIGHT;
+    private int PERIOD_INTERVAL;
 
     private Timer timer;
     private boolean isFallingFinished = false;
@@ -29,8 +29,24 @@ public class Board extends JPanel {
     private Tetrominoe[] board;
 
     public Board(Tetris parent) {
-
+    	actualizarDificultad();
         initBoard(parent);
+    }
+    
+    private void actualizarDificultad() {
+    	if(Dificultad.dificultad == 0) {
+    		BOARD_WIDTH = 15;
+    	    BOARD_HEIGHT = 27;
+    	    PERIOD_INTERVAL = 350;
+    	} else if(Dificultad.dificultad == 1) {
+    	    BOARD_WIDTH = 15;
+    	    BOARD_HEIGHT = 22;
+    	    PERIOD_INTERVAL = 300;
+    	} else if(Dificultad.dificultad == 2) {
+    		BOARD_WIDTH = 10;
+    	    BOARD_HEIGHT = 22;
+    	    PERIOD_INTERVAL = 200;
+    	}
     }
 
     private void initBoard(Tetris parent) {

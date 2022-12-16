@@ -28,7 +28,7 @@ public class Tetris extends JFrame {
     private JLabel statusbar;
 
     public Tetris() {
-
+    	
         initUI();
     }
 
@@ -40,9 +40,6 @@ public class Tetris extends JFrame {
         var board = new Board(this);
         add(board);
         board.start();
-        
-        JButton guardarPartida = new JButton("Pausar Partida");
-        add(guardarPartida, BorderLayout.NORTH);
 
         setTitle("Tetris");
         setSize(200, 400);
