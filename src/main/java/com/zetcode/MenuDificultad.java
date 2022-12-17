@@ -47,6 +47,7 @@ public class MenuDificultad extends JFrame {
 	 * Create the frame.
 	 */
 	public MenuDificultad() {
+		this.setVisible(true);
 		setBackground(new Color(221, 160, 221));
 		initialize();
 		support = new PropertyChangeSupport(this);
@@ -122,18 +123,9 @@ public class MenuDificultad extends JFrame {
 		);
 		Contenido.setLayout(gl_Contenido);
 		
-		JPanel Volver = new JPanel();
-		contentPane.add(Volver, BorderLayout.SOUTH);
-		Volver.setBackground(new Color(153, 153, 153));
-		
-		JButton btnVolver = new JButton("Volver");
-		btnVolver.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				Menu volverMenu = new Menu();
-				volverMenu.setVisible(true);
-				MenuDificultad.this.dispose();
-			}
-		});
+		JPanel Jugar = new JPanel();
+		contentPane.add(Jugar, BorderLayout.SOUTH);
+		Jugar.setBackground(new Color(153, 153, 153));
 		
 		JButton btnJugar = new JButton("Jugar");
 		btnJugar.addActionListener(new ActionListener() {
@@ -144,25 +136,21 @@ public class MenuDificultad extends JFrame {
 			}
 		});
 		btnJugar.setHorizontalAlignment(SwingConstants.RIGHT);
-		GroupLayout gl_Volver = new GroupLayout(Volver);
-		gl_Volver.setHorizontalGroup(
-			gl_Volver.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_Volver.createSequentialGroup()
-					.addContainerGap(112, Short.MAX_VALUE)
-					.addComponent(btnVolver)
-					.addGap(91)
+		GroupLayout gl_Jugar = new GroupLayout(Jugar);
+		gl_Jugar.setHorizontalGroup(
+			gl_Jugar.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_Jugar.createSequentialGroup()
+					.addGap(177)
 					.addComponent(btnJugar)
-					.addGap(99))
+					.addContainerGap(188, Short.MAX_VALUE))
 		);
-		gl_Volver.setVerticalGroup(
-			gl_Volver.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_Volver.createSequentialGroup()
+		gl_Jugar.setVerticalGroup(
+			gl_Jugar.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_Jugar.createSequentialGroup()
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGroup(gl_Volver.createParallelGroup(Alignment.LEADING)
-						.addComponent(btnVolver)
-						.addComponent(btnJugar)))
+					.addComponent(btnJugar))
 		);
-		Volver.setLayout(gl_Volver);
+		Jugar.setLayout(gl_Jugar);
 	}
 	
 	public void addObserver(PropertyChangeListener pList) {

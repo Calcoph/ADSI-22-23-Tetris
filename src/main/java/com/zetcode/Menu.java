@@ -24,7 +24,7 @@ public class Menu extends JFrame{
 
 	private JPanel contentPane;
 	private JButton nuevaPartida;
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -59,7 +59,6 @@ public class Menu extends JFrame{
 		nuevaPartida.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MenuDificultad abrirDificultad = new MenuDificultad();
-				abrirDificultad.setVisible(true);
 				Menu.this.dispose();
 			}
 		});
