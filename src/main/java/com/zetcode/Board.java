@@ -2,15 +2,20 @@ package com.zetcode;
 
 import com.zetcode.Shape.Tetrominoe;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
 
 public class Board extends JPanel {
 
@@ -27,6 +32,8 @@ public class Board extends JPanel {
     private JLabel statusbar;
     private Shape curPiece;
     private Tetrominoe[] board;
+    JButton guardarPartida = null;
+    JButton cancelar = null;
 
     public Board(Tetris parent) {
 
@@ -70,14 +77,43 @@ public class Board extends JPanel {
     private void pause() {
 
         isPaused = !isPaused;
-
         if (isPaused) {
 
             statusbar.setText("paused");
+            if (this.guardarPartida == null && this.cancelar == null) {
+            	this.guardarPartida = new JButton("Guardar Partida");
+            	guardarPartida.addActionListener(new ActionListener() {
+    				
+    				@Override
+    				public void actionPerformed(ActionEvent e) {
+    					System.out.println("Guardar Partida");
+    					Gestor g=new Gestor();
+    				//	g.guardarPartida();
+    					Tetris.getTetris().close();
+    					Menu.getMenu().start();
+    					
+    				}
+    			});
+            	this.add(guardarPartida, BorderLayout.NORTH);
+            	this.cancelar = new JButton("Cancelar");
+            	cancelar.addActionListener(new ActionListener() {
+    				
+    				@Override
+    				public void actionPerformed(ActionEvent e) {
+    					pause();
+    					
+    				}
+    			});
+                this.add(cancelar, BorderLayout.NORTH);
+            }
         } else {
-
+        	remove(this.guardarPartida);
+			remove(this.cancelar);
+        	this.guardarPartida = null;
+        	this.cancelar = null;
             statusbar.setText(String.valueOf(numLinesRemoved));
         }
+        
 
         repaint();
     }
@@ -182,8 +218,11 @@ public class Board extends JPanel {
 
             curPiece.setShape(Tetrominoe.NoShape);
             timer.stop();
-
-            var msg = String.format("Game over. Score: %d", numLinesRemoved);
+            String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date()); //Para saber la fecha
+            Gestor g=new Gestor();
+            int difi=g.getDificultad();
+            g.setNuevaPuntuacion(/*Puntuacion*/numLinesRemoved,/*Nombre*/ g.getNombreUsuario(), timeStamp, /*Dificultad*/ difi);
+            var msg = String.format("Game over. Score: %d", numLinesRemoved); 
             statusbar.setText(msg);
         }
     }

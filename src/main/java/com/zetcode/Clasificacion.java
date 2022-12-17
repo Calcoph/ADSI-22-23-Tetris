@@ -3,19 +3,26 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
+
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.AncestorListener;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.awt.GridLayout;
+import java.awt.ScrollPane;
 import java.awt.Scrollbar;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -68,6 +75,8 @@ public class Clasificacion extends JFrame{
 		contentPane.add(getPestanas(),BorderLayout.CENTER);
 		contentPane.add(getPanelAbajo(),BorderLayout.SOUTH);
 		setTitle("Clasificación");
+		setLocationRelativeTo(null);
+		setResizable(false);
 		
 	}
 	
@@ -102,17 +111,22 @@ public class Clasificacion extends JFrame{
 			panelAux.add(new JLabel("Nombre"));
 			panelAux.add(new JLabel("Puntuación"));
 			panelAux.add(new JLabel("Dificultad"));
-			Gestor g=Gestor.getGestor();
+			Gestor g=new Gestor();
 			JSONArray jl=g.getRankingGlobal();
 			if(jl.length()!=0) {
 				
 				JPanel panelPunt=new JPanel();
-				panelPunt.setLayout(new GridLayout(jl.length(),3));//Panel de las puntuaciones
-				panelRankingG.add(panelPunt);
+				panelPunt.setLayout(new GridLayout(jl.length(),3,50,50));//Panel de las puntuaciones
+				
+				//panelPunt.se
+				JScrollPane barra= new JScrollPane(panelPunt);
+				barra.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+				panelRankingG.add(barra);
 				
 			for(Integer i=0;i<jl.length();i++) {
 				JSONObject o=jl.getJSONObject(i);
-				panelPunt.add(new JLabel(i.toString() + "º"));
+				Integer pos=i+1;
+				panelPunt.add(new JLabel(pos.toString() + "º"));
 				panelPunt.add(new JLabel(o.getString("nombreUsuario")));
 				panelPunt.add(new JLabel(String.valueOf(o.getInt("punt"))));
 				panelPunt.add(new JLabel(String.valueOf(o.getInt("dif"))));
@@ -135,24 +149,27 @@ public class Clasificacion extends JFrame{
 			panelRankingP=new JPanel();
 			panelRankingP.setLayout(new BorderLayout(0, 0));
 			JPanel panelAux=new JPanel(); //Para fijar los títulos
-			panelAux.setLayout(new GridLayout(1,4));
+			panelAux.setLayout(new GridLayout(1,4,50,50));
 			panelRankingP.add(panelAux,BorderLayout.NORTH);
 			panelRankingP.add(new JLabel());
 			panelAux.add(new JLabel(""));
 			panelAux.add(new JLabel("Nombre"));
 			panelAux.add(new JLabel("Puntuación"));
 			panelAux.add(new JLabel("Dificultad"));
-			Gestor g=Gestor.getGestor();
-			JSONArray jl=g.getRankingPersonal("Ander"); //Cambiar por g.getusuario()
+			Gestor g=new Gestor();
+			JSONArray jl=g.getRankingPersonal(g.getNombreUsuario()); //Cambiar por g.getusuario()
 			if(jl.length()!=0) {	
 				JPanel panelPunt=new JPanel();
-				panelPunt.setLayout(new GridLayout(jl.length(),3));//Panel de las puntuaciones
-				panelRankingP.add(panelPunt);
+				panelPunt.setLayout(new GridLayout(jl.length(),3,50,50));//Panel de las puntuaciones
+				JScrollPane barra= new JScrollPane(panelPunt);
+				barra.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+				panelRankingP.add(barra);
 				
 			for(Integer i=0;i<jl.length();i++) {
 				JSONObject o=jl.getJSONObject(i);
-				panelPunt.add(new JLabel(i.toString() + "º"));
-				panelPunt.add(new JLabel("Ander")); //cambiar por g.getusuario()
+				Integer pos=i+1;
+				panelPunt.add(new JLabel(pos.toString() + "º"));
+				panelPunt.add(new JLabel(g.getNombreUsuario())); //cambiar por g.getusuario()
 				panelPunt.add(new JLabel(String.valueOf(o.getInt("punt"))));
 				panelPunt.add(new JLabel(String.valueOf(o.getInt("dif"))));
 				
@@ -162,7 +179,7 @@ public class Clasificacion extends JFrame{
 				//e.printStackTrace();
 				JPanel panelVac=new JPanel();
 				panelVac.setLayout(new BorderLayout(0,0));
-				panelVac.add(new JLabel("No existe ninguna puntuación",JLabel.CENTER));
+				panelVac.add(new JLabel("No existe ninguna puntuación tuya",JLabel.CENTER));
 				panelRankingP.add(panelVac,BorderLayout.CENTER);
 			}	
 		}
@@ -215,6 +232,7 @@ public class Clasificacion extends JFrame{
 			pestanas= new JTabbedPane();
 			pestanas.add(getPanelGlobal(),"Global");
 			pestanas.add(getPanelPersonal(),"Tú");
+			pestanas.addChangeListener(new volverATodo());
 		}
 		return pestanas;
 	}
@@ -233,7 +251,7 @@ public class Clasificacion extends JFrame{
 	
 	class verMenu implements ActionListener{
 		public void actionPerformed(ActionEvent a) {
-			Menu frame=new Menu();
+			Menu frame=Menu.getMenu();
 			frame.setVisible(true);
 			dispose();	//Oculta la clasificacion
 		}
@@ -247,29 +265,31 @@ public class Clasificacion extends JFrame{
 						getPanelRankingG().removeAll();
 						JPanel panelAux=new JPanel(); //Para fijar los títulos
 						panelAux.setLayout(new GridLayout(1,4));
-						panelAux.setLayout(new GridLayout(1,4));
 						panelRankingG.add(panelAux,BorderLayout.NORTH);
 						panelRankingG.add(new JLabel());
 						panelAux.add(new JLabel(""));
 						panelAux.add(new JLabel("Nombre"));
 						panelAux.add(new JLabel("Puntuación"));
 						panelAux.add(new JLabel("Dificultad"));
-						Gestor g=Gestor.getGestor();
+						Gestor g=new Gestor();
 						String s=dificultad.getSelectedItem().toString();
 						Integer d=Integer.parseInt(s);
 						JSONArray jl=g.getRankingGlobalFiltrado(d);
 						if(jl.length()!=0) {
 							JPanel panelPunt=new JPanel();
-							panelPunt.setLayout(new GridLayout(jl.length(),3));//Panel de las puntuaciones
+							panelPunt.setLayout(new GridLayout(jl.length(),3,50,50));//Panel de las puntuaciones
 						for(Integer i=0;i<jl.length();i++) {
 							JSONObject o=jl.getJSONObject(i);
-							panelPunt.add(new JLabel(i.toString() + "º"));
+							Integer pos=i+1;
+							panelPunt.add(new JLabel(pos.toString() + "º"));
 							panelPunt.add(new JLabel(o.getString("nombreUsuario")));
 							panelPunt.add(new JLabel(String.valueOf(o.getInt("punt"))));
 							panelPunt.add(new JLabel(String.valueOf(o.getInt("dif"))));
 							
-						}getPanelRankingG().add(panelPunt,BorderLayout.CENTER);
-						panelRankingG.add(panelPunt);
+						}
+						JScrollPane barra= new JScrollPane(panelPunt);
+						barra.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+						getPanelRankingG().add(barra,BorderLayout.CENTER);
 						getPanelRankingG().revalidate();
 						getPanelRankingG().repaint();
 						}else {
@@ -283,20 +303,23 @@ public class Clasificacion extends JFrame{
 						
 					}catch(NumberFormatException | JSONException | SQLException e) { //Si "Todo"
 						try {
-							Gestor g=Gestor.getGestor();
+							Gestor g=new Gestor();
 							JSONArray jl=g.getRankingGlobal();
 							if(jl.length()!=0) {
 								JPanel panelPunt=new JPanel();
-								panelPunt.setLayout(new GridLayout(jl.length(),3));//Panel de las puntuaciones
+								panelPunt.setLayout(new GridLayout(jl.length(),3,50,50));//Panel de las puntuaciones	
 								for(Integer i=0;i<jl.length();i++) {
 									JSONObject o=jl.getJSONObject(i);
-									panelPunt.add(new JLabel(i.toString() + "º"));
+									Integer pos=i+1;									
+									panelPunt.add(new JLabel(pos.toString() + "º"));
 									panelPunt.add(new JLabel(o.getString("nombreUsuario")));
 									panelPunt.add(new JLabel(String.valueOf(o.getInt("punt"))));
 									panelPunt.add(new JLabel(String.valueOf(o.getInt("dif"))));
 									
-								}getPanelRankingG().add(panelPunt,BorderLayout.CENTER);
-								panelRankingG.add(panelPunt);
+								}
+								JScrollPane barra= new JScrollPane(panelPunt);
+								barra.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+								getPanelRankingG().add(barra,BorderLayout.CENTER);
 								getPanelRankingG().revalidate();
 								getPanelRankingG().repaint();
 							}else {
@@ -311,7 +334,7 @@ public class Clasificacion extends JFrame{
 								
 								
 					}catch(JSONException | SQLException daads)	{}}	//Poner que ha habido un error
-				}else { //Ranking personal seleccionada
+				}else { //Ranking personal seleccionado
 					try {
 					getPanelRankingP().removeAll();
 					JPanel panelAux=new JPanel(); //Para fijar los títulos
@@ -322,22 +345,25 @@ public class Clasificacion extends JFrame{
 					panelAux.add(new JLabel("Nombre"));
 					panelAux.add(new JLabel("Puntuación"));
 					panelAux.add(new JLabel("Dificultad"));
-					Gestor g=Gestor.getGestor();
+					Gestor g=new Gestor();
 					String s=dificultad.getSelectedItem().toString();
 					Integer d=Integer.parseInt(s);
-					JSONArray jl=g.getRankingPersonalFiltrado(d,"Ander"); //Cambiar por g.getusuario()
+					JSONArray jl=g.getRankingPersonalFiltrado(d,g.getNombreUsuario()); //Cambiar por g.getusuario()
 					if(jl.length()!=0) {
 						JPanel panelPunt=new JPanel();
-						panelPunt.setLayout(new GridLayout(jl.length(),3));//Panel de las puntuaciones
+						panelPunt.setLayout(new GridLayout(jl.length(),3,50,50));//Panel de las puntuaciones
+						panelPunt.setAlignmentY(TOP_ALIGNMENT);
 						for(Integer i=0;i<jl.length();i++) {
 							JSONObject o=jl.getJSONObject(i);
-							panelPunt.add(new JLabel(i.toString() + "º"));
-							panelPunt.add(new JLabel("Ander")); //Cambiar por g.getusuario()
+							Integer pos=i+1;
+							panelPunt.add(new JLabel(pos.toString() + "º"));
+							panelPunt.add(new JLabel(g.getNombreUsuario())); //Cambiar por g.getusuario()
 							panelPunt.add(new JLabel(String.valueOf(o.getInt("punt"))));
 							panelPunt.add(new JLabel(String.valueOf(o.getInt("dif"))));
 					}	
-					getPanelRankingP().add(panelPunt,BorderLayout.CENTER);
-					panelRankingP.add(panelPunt);
+						JScrollPane barra= new JScrollPane(panelPunt);
+						barra.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+						getPanelRankingP().add(barra,BorderLayout.CENTER);
 					getPanelRankingP().revalidate();
 					getPanelRankingP().repaint();
 					}else {
@@ -350,20 +376,23 @@ public class Clasificacion extends JFrame{
 					}
 					}catch(NumberFormatException | JSONException | SQLException e) {//Si pulsa "todo"
 					try {
-						Gestor g=Gestor.getGestor();
-						JSONArray jl=g.getRankingPersonal("Ander"); //Cambiar por g.getusuario()
+						Gestor g=new Gestor();
+						JSONArray jl=g.getRankingPersonal(g.getNombreUsuario()); //Cambiar por g.getusuario()
 						if(jl.length()!=0) {
 							JPanel panelPunt=new JPanel();
-							panelPunt.setLayout(new GridLayout(jl.length(),3));//Panel de las puntuaciones
+							panelPunt.setLayout(new GridLayout(jl.length(),3,50,50));//Panel de las puntuaciones
 							for(Integer i=0;i<jl.length();i++) {
 								JSONObject o=jl.getJSONObject(i);
-								panelPunt.add(new JLabel(i.toString() + "º"));
-								panelPunt.add(new JLabel("Ander")); //Cambiar por g.getusuario
+								Integer pos=i+1;
+								panelPunt.add(new JLabel(pos.toString() + "º"));
+								panelPunt.add(new JLabel(g.getNombreUsuario())); //Cambiar por g.getusuario
 								panelPunt.add(new JLabel(String.valueOf(o.getInt("punt"))));
 								panelPunt.add(new JLabel(String.valueOf(o.getInt("dif"))));
 								
 							}
-							getPanelRankingP().add(panelPunt,BorderLayout.CENTER);
+							JScrollPane barra= new JScrollPane(panelPunt);
+							barra.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+							panelRankingP.add(barra);
 							getPanelRankingP().revalidate();
 							getPanelRankingP().repaint();
 						}else {
@@ -380,8 +409,10 @@ public class Clasificacion extends JFrame{
 		}
 		
 	}
-	
-	
-	
+	class volverATodo implements ChangeListener{
+		public void stateChanged (ChangeEvent a) {
+			getDificultad().setSelectedIndex(0);
+		}
+	}
 	
 }

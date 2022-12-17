@@ -7,18 +7,7 @@ import org.json.JSONObject;
 import java.sql.*;
 
 public class GestorRanking {
-	private static GestorRanking miGestorRanking = null;
-	
-	private GestorRanking() {
-		
-	}
-	
-	public static GestorRanking getGestorRanking() {
-		if (miGestorRanking == null) {
-			miGestorRanking = new GestorRanking();
-		}
-		return miGestorRanking;
-	}
+
 	public JSONArray getRankingGlobal() throws JSONException, SQLException {
         // TODO
     	JSONArray jsr=new JSONArray();
@@ -93,5 +82,11 @@ public class GestorRanking {
 	    	jsr.put(jsu);
     	}
         return jsr;
+    }
+    
+    public void setNuevaPuntuacion(int punt, String nom, String time, int difi) {
+    	SGBD.execVoidSQL(String.format("INSERT INTO RANKING(nombreUsuario,niveldificultad, fechahora,puntos) "
+    			+ "VALUES((SELECT nombreusuario FROM USUARIO WHERE nombreUsuario = '%s'),"
+        		+ "(SELECT niveldificultad FROM DIFICULTAD WHERE niveldificultad = '%s'),'%s','%s')",nom,difi,time,punt));
     }
 }

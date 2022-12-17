@@ -3,35 +3,18 @@ package com.zetcode;
 import java.util.ArrayList;
 
 public class Usuario {
-    private String nombre;
-    private Partida partida;
-
-    public String getNombre() {
-        // TODO
-        return nombre;
-    }
-
-    private Partida obtenerPartida(String st1) {
-        // TODO
-        return null;
-    }
-
-    private void setPartida(Partida p1) {
-        // TODO
-    }
-
-    private int obtPuntosPartida() {
-        // TODO
-        return 0;
-    }
-
-    private String getNomrbe() {
-        // TODO
-        return "";
-    }
-
-    private ArrayList<Premio> obtListaPremios() {
-        // TODO
-        return null;
-    }
+	private String nombre = null;
+	private Partida partida = null;
+	
+	public Usuario(String pNombre) {
+		this.nombre = pNombre;
+	}
+	
+	public String getNombre() {
+		return this.nombre;
+	}
+	
+	public Partida obtenerPartida() {
+		return this.partida;
+	}
 }

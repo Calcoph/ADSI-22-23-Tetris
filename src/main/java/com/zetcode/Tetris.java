@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.JButton;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,8 +28,32 @@ public class Tetris extends JFrame {
 	private static final Logger logger = LogManager.getLogger(Tetris.class);
 
     private JLabel statusbar;
+    private static Tetris miTetris = null;
+    
+    public static Tetris getTetris() {
+    	if (miTetris == null) {
+    		miTetris = new Tetris();
+    	}
+    	return miTetris;
+    }
+    
+    public void start() {
+    	EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					miTetris.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+    }
+    
+    public void close() {
+    	miTetris.dispose();
+    }
 
-    public Tetris() {
+    private Tetris() {
 
         initUI();
     }
@@ -43,6 +69,8 @@ public class Tetris extends JFrame {
         
         JButton guardarPartida = new JButton("Pausar Partida");
         add(guardarPartida, BorderLayout.NORTH);
+        guardarPartida.setFocusable(false);
+        
 
         setTitle("Tetris");
         setSize(200, 400);
@@ -54,6 +82,7 @@ public class Tetris extends JFrame {
 
         return statusbar;
     }
+
 
     public static void main(String[] args) {
         logger.info("Playing");
