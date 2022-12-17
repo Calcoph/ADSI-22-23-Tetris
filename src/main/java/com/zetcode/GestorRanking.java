@@ -14,7 +14,7 @@ public class GestorRanking {
     	ResultSet res=SGBD.execResultSQL(String.format(""+"SELECT NombreUsuario, NivelDificultad, Puntos"
     			+" FROM"
     			+"(SELECT * "
-    			+ "FROM Ranking ORDER BY Puntos Desc, FechaHora)"));
+    			+ "FROM Ranking ORDER BY Puntos Desc, NivelDificultad Desc, FechaHora)"));
     	while(res.next()) {
 	    	JSONObject jsu=new JSONObject();
 	    	jsu.put("nombreUsuario", res.getString("nombreUsuario"));
@@ -34,7 +34,7 @@ public class GestorRanking {
     			+" FROM "
     			+"(SELECT * "
     			+ "FROM Ranking "
-    			+ "ORDER BY Puntos Desc, FechaHora) "+
+    			+ "ORDER BY Puntos Desc, NivelDificultad, FechaHora) "+
     			"WHERE NivelDificultad = '%s'",difi));
     	while(res.next()) {
 	    	JSONObject jsu=new JSONObject();
@@ -54,7 +54,7 @@ public class GestorRanking {
     			+ "FROM "
     			+ "(SELECT * "
     			+ "FROM Ranking "
-    			+ "ORDER BY Puntos Desc, FechaHora) "
+    			+ "ORDER BY Puntos Desc, NivelDificultad, FechaHora) "
     			+ "WHERE NombreUsuario = '%s'",nombre));
     	while(res.next()) {
 	    	JSONObject jsu=new JSONObject();
@@ -72,7 +72,7 @@ public class GestorRanking {
     			+ "FROM "
     			+ "(SELECT * "
     			+ "FROM Ranking "
-    			+ "ORDER BY Puntos Desc, FechaHora) "
+    			+ "ORDER BY Puntos Desc, NivelDificultad, FechaHora) "
     			+ "WHERE NombreUsuario = '%s'"
     			+ " AND NivelDificultad = '%s'", nombre,difi));
     	while(res.next()) {
