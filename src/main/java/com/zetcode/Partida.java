@@ -112,10 +112,6 @@ public class Partida {
 		this.idPartida = pIdPartida;
 	}
 
-    private void anadirListaFichas(ArrayList<Ficha> listaFichas) {
-        // TODO
-    }
-
     public void setEstadoTablero(String pEstadoTablero) {
 		this.estadoTablero = pEstadoTablero;
 	}

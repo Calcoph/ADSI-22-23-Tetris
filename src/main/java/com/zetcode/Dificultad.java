@@ -2,10 +2,14 @@ package com.zetcode;
 
 public class Dificultad {
 	
+	// Ancho del tablero
 	private static int BOARD_WIDTH;
+	// Alto del tablero
 	private static int BOARD_HEIGHT;
+	// Velocidad de las fichas
 	private static int PERIOD_INTERVAL;
 	
+	// Metodos para devolver y cambiar el ancho
 	public static int getBOARD_WIDTH() {
 		return BOARD_WIDTH;
 	}
@@ -13,6 +17,7 @@ public class Dificultad {
 		BOARD_WIDTH = bOARD_WIDTH;
 	}
 	
+	// Metodos para devolver y cambiar el alto
 	public static int getBOARD_HEIGHT() {
 		return BOARD_HEIGHT;
 	}
@@ -20,6 +25,7 @@ public class Dificultad {
 		BOARD_HEIGHT = bOARD_HEIGHT;
 	}
 	
+	// Metodos para devolver y cambiar la velocidad
 	public static int getPERIOD_INTERVAL() {
 		return PERIOD_INTERVAL;
 	}

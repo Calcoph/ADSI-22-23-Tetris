@@ -74,7 +74,101 @@ public class IU_MenuAdmin extends JFrame {
 				}
 			}
 		});
+<<<<<<< HEAD
 		btnEliminarUsuario.addActionListener(new ActionListener() { // Funcion del boton eliminar usuario al pulsar sobre el 
+=======
+		btnNuevaPartida.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				nuevaPartida();
+			}
+		});
+		btnNuevaPartida.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		GridBagConstraints gbc_btnNuevaPartida = new GridBagConstraints();
+		gbc_btnNuevaPartida.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnNuevaPartida.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNuevaPartida.gridx = 1;
+		gbc_btnNuevaPartida.gridy = 1;
+		panelCentral.add(btnNuevaPartida, gbc_btnNuevaPartida);
+		
+		JButton btnCargarPartida = new JButton("Cargar Partida");
+		btnCargarPartida.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				cargarPartida();
+			}
+		});
+		btnCargarPartida.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				cargarPartida();
+			}
+		});
+		btnCargarPartida.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		GridBagConstraints gbc_btnCargarPartida = new GridBagConstraints();
+		gbc_btnCargarPartida.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnCargarPartida.insets = new Insets(0, 0, 5, 5);
+		gbc_btnCargarPartida.gridx = 1;
+		gbc_btnCargarPartida.gridy = 2;
+		panelCentral.add(btnCargarPartida, gbc_btnCargarPartida);
+		
+		JButton btnPersonalizarPantalla = new JButton("Personalizar Pantalla");
+		btnPersonalizarPantalla.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				personalizarPantalla();
+			}
+		});
+		btnPersonalizarPantalla.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				personalizarPantalla();
+			}
+		});
+		btnPersonalizarPantalla.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		GridBagConstraints gbc_btnPersonalizarPantalla = new GridBagConstraints();
+		gbc_btnPersonalizarPantalla.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnPersonalizarPantalla.insets = new Insets(0, 0, 5, 5);
+		gbc_btnPersonalizarPantalla.gridx = 1;
+		gbc_btnPersonalizarPantalla.gridy = 3;
+		panelCentral.add(btnPersonalizarPantalla, gbc_btnPersonalizarPantalla);
+		
+		JButton btnVerRanking = new JButton("Ver Ranking");
+		btnVerRanking.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				verRanking();
+			}
+		});
+		btnVerRanking.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				verRanking();
+			}
+		});
+		btnVerRanking.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		GridBagConstraints gbc_btnVerRanking = new GridBagConstraints();
+		gbc_btnVerRanking.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnVerRanking.insets = new Insets(0, 0, 5, 5);
+		gbc_btnVerRanking.gridx = 1;
+		gbc_btnVerRanking.gridy = 4;
+		panelCentral.add(btnVerRanking, gbc_btnVerRanking);
+		
+		JButton btnVerPremios = new JButton("Ver Premios");
+		btnVerPremios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				verPremios();
+			}
+		});
+		btnVerPremios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		GridBagConstraints gbc_btnVerPremios = new GridBagConstraints();
+		gbc_btnVerPremios.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnVerPremios.insets = new Insets(0, 0, 5, 5);
+		gbc_btnVerPremios.gridx = 1;
+		gbc_btnVerPremios.gridy = 5;
+		panelCentral.add(btnVerPremios, gbc_btnVerPremios);
+		
+		JButton btnEliminarusuario = new JButton("EliminarUsuario");
+		btnEliminarusuario.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				elimiarUsuario();
+			}
+		});
+		btnEliminarusuario.addActionListener(new ActionListener() {
+>>>>>>> 963058a348987f620d25c21de12561f054a2f723
 			public void actionPerformed(ActionEvent e) {
 				elimiarUsuario();
 			}
@@ -101,7 +195,34 @@ public class IU_MenuAdmin extends JFrame {
 		this.setVisible(false);
 	}
 	
+<<<<<<< HEAD
 	public void elimiarUsuario() { // Metodo para abrir ventana IU_EliminarUsuario
+=======
+	public void nuevaPartida() {
+		
+	}
+	
+	public void cargarPartida() {
+		
+	}
+	
+	public void personalizarPantalla() {
+		
+	}
+	
+	public void verRanking() {
+		
+	}
+	
+	public void verPremios() {
+		MenuPremios premios = new MenuPremios();
+		premios.setLocationRelativeTo(null);
+		premios.setVisible(true);
+		dispose();
+	}
+	
+	public void elimiarUsuario() {
+>>>>>>> 963058a348987f620d25c21de12561f054a2f723
 		IU_EliminarUsuario iuEliminarUsuario = new IU_EliminarUsuario();
 		ocultar();
 		System.out.println("eliminar");

@@ -21,14 +21,4 @@ public class Usuario {
     public Partida obtenerPartida() {
         return partida;
     }
-
-    private int obtPuntosPartida() {
-        // TODO
-        return 0;
-    }
-
-    private ArrayList<Premio> obtListaPremios() {
-        // TODO
-        return null;
-    }
 }

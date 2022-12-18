@@ -85,7 +85,7 @@ public class Personalizar extends JFrame {
 		setBackground(new Color(221, 160, 221));
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(500, 200, 459, 258);
-		
+		setLocationRelativeTo(null);
 		setResizable(false);
 		contentPane = new JPanel();
 		contentPane.setBackground(new Color(153, 153, 153));

@@ -152,7 +152,6 @@ public class GestorUsuario {
             usu[2] = resultado.getString("email");
           }
         } catch (Exception e) {
-          // TODO: handle exception
           e.printStackTrace();
         }
       }

@@ -2,10 +2,12 @@ package com.zetcode;
 
 public class GestorDificultad {
 	
+	// Devuelve la dificultad seleccionada 0, 1 o 2
 	public static int getDificultad() {
 		return MenuDificultad.dificultad;
 	}
 	
+	// Cambia los valores de alto y ancho del tablero y la velocidad de las fichas en funcion de la dificultad
 	public static void actualizarDificultad() {
     	if(getDificultad() == 0) {
     		Dificultad.setBOARD_WIDTH(15);

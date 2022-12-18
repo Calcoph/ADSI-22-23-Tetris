@@ -89,23 +89,19 @@ public class Gestor {
 	}
 
      public JSONArray getRankingGlobal() throws JSONException, SQLException {
-        // TODO
     	return new GestorRanking().getRankingGlobal();
     	
     }
 
     public JSONArray getRankingGlobalFiltrado(int difi) throws SQLException, JSONException {
-        // TODO
         return new GestorRanking().getRankingGlobalFiltrado(difi);
     }
 
     public JSONArray getRankingPersonal(String nombreUsuario) throws SQLException, JSONException {
-        // TODO
         return new GestorRanking().getRankingPersonal(nombreUsuario);
     }
 
     public JSONArray getRankingPersonalFiltrado(int difi, String nombreUsuario) throws SQLException, JSONException {
-        // TODO
         return new GestorRanking().getRankingPersonalFiltrado(difi, nombreUsuario);
     }
     
@@ -270,7 +266,6 @@ public class Gestor {
     }
 
 	public void setUsuario(String usu) {
-        // TODO: Esto lo he puesto para un test
         Usuario usuarioActual = new Usuario(usu);
 		GestorUsuario.getGestorUsuario().setUsuario(usuarioActual);
     }
@@ -360,25 +355,6 @@ public class Gestor {
 		}
     }
 
-    private int mostarDificultad(String nombreUsuario, int dificultad) {
-        // TODO
-        return 0;
-    }
-
-    private void actualizarDificultad(String nombreUsuario, int dificultad) {
-        // TODO
-    }
-
-    private String mostrarPersonalizacion(String nombreUsuario) {
-        // TODO
-        return "";
-    }
-
-    private String actualizarPersonalizacion(String nombreUsuario) {
-        // TODO
-        return "";
-    }
-
     public static void guardarPartida(String pEstadoTablero) {
 		ResultSet resultado;
 		//Obtener los datos necesarios
@@ -392,20 +368,20 @@ public class Gestor {
 		GestorPremios.comprobarProgresoPremios(); //Comprobar el progreso de los premios
 		ArrayList<Premio> listaPremios = GestorPremios.obtenerPremios(nombreUsuario);
 		try {
-			resultado = SGBD.execResultSQL("SELECT * FROM PARTIDA WHERE id =="+idPartida);
+			resultado = SGBD.execResultSQL("SELECT * FROM PARTIDA WHERE id = "+idPartida+"");
 			if (resultado == null) { //INSERT
-				SGBD.execVoidSQL(String.format("INSERT INTO PARTIDA VALUES(%d,%d,%s,%s,%d)",idPartida,puntos,estadoTablero,nombreUsuario,dificultad));
+				SGBD.execVoidSQL(String.format("INSERT INTO PARTIDA VALUES(%d,%d,'%s','%s',%d)",idPartida,puntos,estadoTablero,nombreUsuario,dificultad));
 			} else { //UPDATE
-				SGBD.execVoidSQL(String.format("UPDATE PARTIDA SET puntos=%d, estadoTablero='%s' WHERE id=%d)",puntos,estadoTablero,idPartida));
+				SGBD.execVoidSQL(String.format("UPDATE PARTIDA SET puntos = %d, estadoTablero = '%s' WHERE id = %d",puntos,estadoTablero,idPartida));
 			}
 			for (Premio premio : listaPremios) {
 				String nombrePremio = premio.getNombre();
 				int progreso = premio.getProgreso();
-				resultado = SGBD.execResultSQL("SELECT * FROM PREMIOSENPARTIDA WHERE id =="+idPartida+"nombrePremio="+nombrePremio);
+				resultado = SGBD.execResultSQL("SELECT * FROM PREMIOSENPARTIDA WHERE idPartida = "+idPartida+" AND nombrePremio = '"+nombrePremio+"'");
 				if (resultado == null) { //INSERT
 					SGBD.execVoidSQL(String.format("INSERT INTO PREMIOSENPARTIDA VALUES(%d,'%s',%d)",idPartida,nombrePremio,progreso));
 				} else { //UPDATE
-					SGBD.execVoidSQL(String.format("UPDATE PREMIOSENPARTIDA SET progreso=%d)",progreso));
+					SGBD.execVoidSQL(String.format("UPDATE PREMIOSENPARTIDA SET progreso = %d WHERE idPartida = %d",progreso,idPartida));
 				}
 			}
 			resultado.close();
@@ -422,7 +398,7 @@ public class Gestor {
 		String estadoTablero = null;
 		try {
 			//Cargar los datos de PARTIDA
-			resultado = SGBD.execResultSQL("SELECT * FROM PARTIDA WHERE id="+pIdPartida);
+			resultado = SGBD.execResultSQL("SELECT * FROM PARTIDA WHERE id = '"+pIdPartida+"'");
 			if (resultado.next()) {
 				int id = pIdPartida;
 				int puntos = resultado.getInt("puntos");
@@ -438,7 +414,7 @@ public class Gestor {
 			resultado.close();
 			
 			//Cargar datos de PREMIOS EN PARTIDA
-			resultado = SGBD.execResultSQL("SELECT * FROM PREMIOSENPARTIDA WHERE idPartida="+pIdPartida);
+			resultado = SGBD.execResultSQL("SELECT * FROM PREMIOSENPARTIDA WHERE idPartida = '"+pIdPartida+"'");
 			while (resultado.next()) {
 				String nombrePremio = resultado.getString("nombrePremio");
 				int progreso = resultado.getInt("progreso");
@@ -454,40 +430,43 @@ public class Gestor {
 		}
 	}
 	
-	public static JSONObject obtenerPartidasUsuarioActual() {
+	public static JSONArray obtenerPartidasUsuarioActual() {
 		Usuario usuario = GestorUsuario.getGestorUsuario().obtenerUsuarioActual();
 		String nombreUsuario = GestorUsuario.getGestorUsuario().getNombreUsuario(usuario);
-		JSONObject[] arrayPartidas = {};
+		JSONArray arrayPartidas = new JSONArray();
 		JSONObject partida;
 		try {
-			ResultSet resultado = SGBD.execResultSQL("SELECT * FROM PARTIDA WHERE nombreUsuario ="+nombreUsuario);
+			ResultSet resultado = SGBD.execResultSQL("SELECT * FROM PARTIDA WHERE nombreUsuario = '"+nombreUsuario+"'");
 			while (resultado.next()) {
-				int id = resultado.getInt("idPartida");
+				int id = resultado.getInt("id");
 				int puntos = resultado.getInt("puntos");
 				partida = new JSONObject();
 				partida.put("id", id);
 				partida.put("puntos", puntos);
-				arrayPartidas[arrayPartidas.length] = partida;
+				arrayPartidas.put(partida);
 			}
 			resultado.close();
 		} catch (Exception e) {
 			System.err.println(e);
 		}
-		JSONObject listaPartidas = new JSONObject();
-		listaPartidas.put("listaPartidas", arrayPartidas);
-		return listaPartidas;
+		return arrayPartidas;
 	}
 	
 	public static void nuevaPartida() {
-        Partida partidaNv = new Partida();
-        Usuario usuAct = GestorUsuario.getGestorUsuario().obtenerUsuarioActual();
-        GestorUsuario.getGestorUsuario().setPartidaUsuario(usuAct,partidaNv);
-		Tetris.getTetris().start(null);
+		try{
+			ResultSet resultado = SGBD.execResultSQL("SELECT MAX(id) AS idPartida FROM PARTIDA");
+			resultado.next();
+			int idPartida = resultado.getInt("idPartida");
+			Partida partidaNv = new Partida();
+			partidaNv.setIdPartida(idPartida+1);
+        	Usuario usuAct = GestorUsuario.getGestorUsuario().obtenerUsuarioActual();
+        	GestorUsuario.getGestorUsuario().setPartidaUsuario(usuAct,partidaNv);
+			Tetris.getTetris().start(null);
+			resultado.close();
+		} catch (Exception e) {
+			System.err.println(e);
+		}
 	}
-
-    private void gestionarEvento(String evento) {
-        // TODO
-    }
 
     private static String encodeValue(String value) 
     {
@@ -516,7 +495,7 @@ public class Gestor {
             msgCompartir = "https://twitter.com/intent/tweet?text="+msgCompartir;
 
         }
-        else if (pBoton.equals("Facebook"))
+        else if (pBoton.equals("Facebook")) //Copiamos el mensaje en el protapapeles para que el usuario lo pegue en su post
         {
             String copiaMsg = msgCompartir;
             StringSelection stringSelection = new StringSelection(copiaMsg);
@@ -524,7 +503,7 @@ public class Gestor {
             clpbrd.setContents(stringSelection, null);
             msgCompartir = "https://www.facebook.com/";
         }
-        else if (pBoton.equals("Instagram"))
+        else if (pBoton.equals("Instagram")) //Copiamos el mensaje en el protapapeles para que el usuario lo pegue en su post
         {
             String copiaMsg = msgCompartir;
             StringSelection stringSelection = new StringSelection(copiaMsg);
@@ -534,7 +513,7 @@ public class Gestor {
         }
         try 
         {
-            java.awt.Desktop.getDesktop().browse(java.net.URI.create(msgCompartir));
+            java.awt.Desktop.getDesktop().browse(java.net.URI.create(msgCompartir)); //Abrimos la direccion que corresponda
         } 
         catch (java.io.IOException e) 
         {
@@ -547,7 +526,7 @@ public class Gestor {
         nomUsu = encodeValue(nomUsu);
         String msgFinal = "Enhorabuena "+nomUsu+"! Este jugador ha completado una partida del Tetris con "+puntos+" puntazos. Ademas ha conseguido los siguientes premios: ";
         int t = 0;
-        if (pDirec.equals("Twitter"))
+        if (pDirec.equals("Twitter")) //como en Twitter el mensaje se genera en url no podemos usar espacios
         {
             msgFinal = "Enhorabuena%20"+nomUsu+"!%20Este%20jugador%20ha%20completado%20una%20partida%20del%20Tetris%20con%20"+puntos+"%20puntazos.%20Ademas%20ha%20conseguido%20los%20siguientes%20premios:%20";
             int n = 0;
@@ -556,7 +535,7 @@ public class Gestor {
                 msgFinal = msgFinal+listaPremios.get(n)+",%20";
                 n++;
             }
-            if (msgFinal.length()>280)
+            if (msgFinal.length()>280) //si nos pasamos del limite de caracteres el mensaje aparecera a medias, asi que lo recortamos
             {
                 msgFinal = "Enhorabuena%20"+nomUsu+"!%20Este%20jugador%20ha%20completado%20una%20partida%20del%20Tetris%20con%20"+puntos+"%20puntazos.%20Ademas%20ha%20conseguido%20"+listaPremios.size()+"%20premios!";
             }   

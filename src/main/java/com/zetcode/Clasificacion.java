@@ -133,7 +133,6 @@ public class Clasificacion extends JFrame{
 				
 			}
 			} else {
-				// TODO Auto-generated catch block
 				//e.printStackTrace();
 				JPanel panelVac=new JPanel();
 				panelVac.setLayout(new BorderLayout(0,0));
@@ -175,7 +174,6 @@ public class Clasificacion extends JFrame{
 				
 			}
 			} else {
-				// TODO Auto-generated catch block
 				//e.printStackTrace();
 				JPanel panelVac=new JPanel();
 				panelVac.setLayout(new BorderLayout(0,0));

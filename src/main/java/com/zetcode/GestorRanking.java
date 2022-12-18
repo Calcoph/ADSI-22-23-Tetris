@@ -9,7 +9,6 @@ import java.sql.*;
 public class GestorRanking {
 
 	public JSONArray getRankingGlobal() throws JSONException, SQLException {
-        // TODO
     	JSONArray jsr=new JSONArray();
     	ResultSet res=SGBD.execResultSQL(String.format(""+"SELECT NombreUsuario, NivelDificultad, Puntos"
     			+" FROM"
@@ -28,7 +27,6 @@ public class GestorRanking {
     }
 
     public JSONArray getRankingGlobalFiltrado(int difi) throws SQLException, JSONException {
-        // TODO
     	JSONArray jsr=new JSONArray();
     	ResultSet res=SGBD.execResultSQL(String.format(""+"SELECT NombreUsuario, NivelDificultad, Puntos"
     			+" FROM "
@@ -66,7 +64,6 @@ public class GestorRanking {
     }
 
     public JSONArray getRankingPersonalFiltrado(int difi, String nombre) throws SQLException, JSONException {
-        // TODO
     	JSONArray jsr=new JSONArray();
     	ResultSet res=SGBD.execResultSQL(String.format(""+"SELECT Puntos, NivelDificultad "
     			+ "FROM "

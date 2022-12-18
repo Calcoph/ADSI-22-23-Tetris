@@ -27,6 +27,7 @@ public class Board extends JPanel {
     private JLabel statusbar;
     private Ficha curPiece;
     private Tetrominoe[] board;
+    JButton pausarPartida = null;
     JButton guardarPartida = null;
     JButton cancelar = null;
 
@@ -59,6 +60,17 @@ public class Board extends JPanel {
     }
 
     public void start(String pEstadoPartida) {
+	    
+	this.pausarPartida = new JButton("Pausar partida");
+        pausarPartida.addActionListener(new ActionListener() {
+    				
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pause();
+            }
+        });
+	this.pausarPartida.setFocusable(false);
+        this.add(pausarPartida, BorderLayout.NORTH);
 
     	curPiece = new Ficha();
     	
@@ -147,7 +159,7 @@ public class Board extends JPanel {
 
         isPaused = !isPaused;
         if (isPaused) {
-
+	    remove(this.pausarPartida);
             statusbar.setText("paused");
             if (this.guardarPartida == null && this.cancelar == null) {
             	this.guardarPartida = new JButton("Guardar Partida");
@@ -174,10 +186,12 @@ public class Board extends JPanel {
                 this.add(cancelar, BorderLayout.NORTH);
             }
         } else {
-        	remove(this.guardarPartida);
-			remove(this.cancelar);
-        	this.guardarPartida = null;
-        	this.cancelar = null;
+	    this.pausarPartida.setFocusable(false);
+	    this.add(pausarPartida, BorderLayout.NORTH);
+            remove(this.guardarPartida);
+	    remove(this.cancelar);
+            this.guardarPartida = null;
+            this.cancelar = null;
             statusbar.setText(String.valueOf(numLinesRemoved));
         }
         
@@ -364,18 +378,19 @@ public class Board extends JPanel {
             numLinesRemoved += numFullLines;
 
             Gestor.addFilas(numFullLines);
+            
+            if (numFullLines == 1) {
+                Gestor.addPuntos(10);
+            } else if (numFullLines == 2) {
+                Gestor.addPuntos(50);
+            } else if (numFullLines == 3) {
+                Gestor.addPuntos(150);
+            } else {
+                Gestor.addPuntos(300);
+            }
 
             if (numFullLines >= 4) {
                 Gestor.addTetrises(1);
-                if (numFullLines == 1) {
-                    Gestor.addPuntos(10);
-                } else if (numFullLines == 2) {
-                    Gestor.addPuntos(50);
-                } else if (numFullLines == 3) {
-                    Gestor.addPuntos(150);
-                } else {
-                    Gestor.addPuntos(300);
-                }
             }
 
             statusbar.setText(String.valueOf(numLinesRemoved));

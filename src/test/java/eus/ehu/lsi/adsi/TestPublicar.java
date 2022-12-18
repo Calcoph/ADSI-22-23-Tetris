@@ -161,23 +161,6 @@ public class TestPublicar
 	}
 
     /**
-     * <h2>Test 7.5</h2>
-     * 
-     * <h4>Descripción</h4> <p>Se pulsa el botón Volver a jugar</p>
-     * 
-     * <h4>Reslutado esperado</h4> <p>El juego se reinicia y empieza una partida</p>
-     */
-    @Test
-	public void VolverAJugar() {
-        GestorUsuario gu = GestorUsuario.getGestorUsuario();
-        Partida par = gu.obtenerPartidaUsuario(gu.obtenerUsuarioActual());
-        par.addPuntos(69420);
-        Gestor.nuevaPartida();
-        par = gu.obtenerPartidaUsuario(gu.obtenerUsuarioActual());
-        assertTrue(par.obtenerPuntos()==0);
-	}
-
-    /**
      * <h2>Test 7.7</h2>
      * 
      * <h4>Descripción</h4> <p>Se pulsa un botón de compartir en una partida en la que no se han obtenido premios</p>

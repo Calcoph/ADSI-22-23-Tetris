@@ -179,7 +179,7 @@ public class CompartirResultados extends JFrame {
 		sl_contentPane.putConstraint(SpringLayout.EAST, panel, 0, SpringLayout.EAST, contentPane);
 		panel.setLayout(new GridLayout(0, 1, 0, 0));
 		
-		JButton btnNewButton_Volver = new JButton("Volver a jugar");
+		/*JButton btnNewButton_Volver = new JButton("Volver a jugar");
 		btnNewButton_Volver.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) 
 			{
@@ -187,7 +187,7 @@ public class CompartirResultados extends JFrame {
 				dispose();
 			}
 		});
-		panel.add(btnNewButton_Volver);
+		panel.add(btnNewButton_Volver);*/
 		
 		JButton btnNewButton_Salir = new JButton("Salir del juego");
 		btnNewButton_Salir.addActionListener(new ActionListener() {

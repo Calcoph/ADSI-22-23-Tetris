@@ -24,6 +24,7 @@ public class Tetris extends JFrame {
     private static final Logger logger = LogManager.getLogger(Tetris.class);
     private JLabel statusbar;
     private static Tetris miTetris = null;
+    Board miBoard = null;
     
     public static Tetris getTetris() {
     	if (miTetris == null) {
@@ -61,14 +62,13 @@ public class Tetris extends JFrame {
         statusbar = new JLabel(" 0");
         add(statusbar, BorderLayout.SOUTH);
 
-        var board = new Board(this);
-        add(board);
-        board.start(pEstadoTablero);
+        if (miBoard != null) {
+            remove(miBoard);
+        }
+        miBoard = new Board(this);
+        add(miBoard);
+        miBoard.start(pEstadoTablero);
         
-        JButton guardarPartida = new JButton("Pausar Partida");
-        add(guardarPartida, BorderLayout.NORTH);
-        guardarPartida.setFocusable(false);
-
         setTitle("Tetris");
         setSize(200, 400);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
