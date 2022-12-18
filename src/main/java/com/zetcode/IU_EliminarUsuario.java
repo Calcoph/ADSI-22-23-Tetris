@@ -90,12 +90,14 @@ public class IU_EliminarUsuario extends JFrame {
 		
 		JButton btnVolver = new JButton("Volver");
 		btnVolver.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnVolver.addKeyListener(new KeyAdapter() {
+		btnVolver.addKeyListener(new KeyAdapter() { // Funcion del boton volver al pulsar enter sobre el boton
 			public void keyPressed(KeyEvent e) {
-				volver();
-			}
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+					volver();
+				}
+			}		
 		});
-		btnVolver.addActionListener(new ActionListener() {
+		btnVolver.addActionListener(new ActionListener() { // Funcion del boton volver al pulsar sobre el boton
 			public void actionPerformed(ActionEvent e) {
 				volver();
 			}
@@ -104,12 +106,14 @@ public class IU_EliminarUsuario extends JFrame {
 		
 		JButton btnGuardarCambios = new JButton("Eliminar");
 		btnGuardarCambios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnGuardarCambios.addKeyListener(new KeyAdapter() {
+		btnGuardarCambios.addKeyListener(new KeyAdapter() { // Funcion del boton eliminar al pulsar enter sobre el boton
 			public void keyPressed(KeyEvent e) {
-				eliminar();
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+					eliminar();
+				}
 			}
 		});
-		btnGuardarCambios.addActionListener(new ActionListener() {
+		btnGuardarCambios.addActionListener(new ActionListener() { // Funcion del boton eliminar al pulsar sobre el boton
 			public void actionPerformed(ActionEvent e) {
 				eliminar();
 			}
@@ -117,17 +121,17 @@ public class IU_EliminarUsuario extends JFrame {
 		panelInferior.add(btnGuardarCambios);
 	}
 	
-	public void ocultar() {
+	public void ocultar() { // Metodo para cerrar ventana actual de tipo IU_EliminarUsuario
 		this.setVisible(false);
 	}
 	
-	public void volver() {
+	public void volver() { // Metodo para volver a la ventana anterior
 		IU_MenuAdmin iuMenuAdmin = new IU_MenuAdmin();
 		ocultar();
 		iuMenuAdmin.setVisible(true);
 	}
 	
-	public void eliminar() {
+	public void eliminar() { // Metodo para eliminar usuario
 		Gestor GPrincipal = new Gestor();
 		String txtNombreUsuario = txtUsuario.getText();
 		if (GPrincipal.eliminarUsuario(txtNombreUsuario) == 1) {

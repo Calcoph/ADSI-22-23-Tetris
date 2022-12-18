@@ -118,7 +118,7 @@ public class IU_Registrarse extends JFrame {
 		panelCentral.add(txtEmail, gbc_txtEmail);
 		txtEmail.setColumns(10);
 		
-		JLabel lblAviso = new JLabel("<html>Email que EXISTA, para poder recuperar  contraseña en un futuro!!<html>");
+		JLabel lblAviso = new JLabel("<html>Email que EXISTA, para poder recuperar  contrasena en un futuro!!<html>");
 		lblAviso.setForeground(Color.RED);
 		GridBagConstraints gbc_lblAviso = new GridBagConstraints();
 		gbc_lblAviso.fill = GridBagConstraints.HORIZONTAL;
@@ -156,7 +156,7 @@ public class IU_Registrarse extends JFrame {
 		panelCentral.add(lblRepetirContrasea, gbc_lblRepetirContrasea);
 		
 		pwdFRepeat = new JPasswordField();
-		pwdFRepeat.addKeyListener(new KeyAdapter() {
+		pwdFRepeat.addKeyListener(new KeyAdapter() { // Funcion del passwordField al pulsar enter
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER){
 					registrarse();
@@ -177,13 +177,15 @@ public class IU_Registrarse extends JFrame {
 		
 		JButton btnVolver = new JButton("Volver");
 		// CON EL TECLADO
-		btnVolver.addKeyListener(new KeyAdapter() {
+		btnVolver.addKeyListener(new KeyAdapter() { // Funcion del boton volver al pulsar enter sobre el 
 			public void keyPressed(KeyEvent e) {
-				volver();
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+					volver();
+				}			
 			}
 		});
 		// CON EL MOUSE
-		btnVolver.addActionListener(new ActionListener() {
+		btnVolver.addActionListener(new ActionListener() { // Funcion del boton volver al pulsar sobre el 
 			public void actionPerformed(ActionEvent e) {
 				volver();
 			}
@@ -193,13 +195,14 @@ public class IU_Registrarse extends JFrame {
 		
 		JButton btnRegistrarse = new JButton("Registrarse");
 		// CON EL TECLADO
-		btnRegistrarse.addKeyListener(new KeyAdapter() {
+		btnRegistrarse.addKeyListener(new KeyAdapter() { // Funcion del boton registrarse al pulsar enter sobre el
 			public void keyPressed(KeyEvent e) {
-				registrarse();
-			}
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+					registrarse();
+				}			}
 		});
 		// CON EL MOUSE
-		btnRegistrarse.addActionListener(new ActionListener() {
+		btnRegistrarse.addActionListener(new ActionListener() { // Funcion del boton registrarse al pulsar sobre el 
 			public void actionPerformed(ActionEvent e) {
 				registrarse();
 			}
@@ -210,17 +213,17 @@ public class IU_Registrarse extends JFrame {
 		panelInferior.add(btnRegistrarse);
 	}
 	
-	public void ocultar() {
+	public void ocultar() { // Metodo para cerrar ventana actual de tipo IU_Registrarse
 		this.setVisible(false);
 	}
 	
-	public void volver() {
+	public void volver() { // Metodo para volver a la ventana anterior
 		IU_Identificacion iuIdentificacion = new IU_Identificacion();
 		ocultar();
 		iuIdentificacion.setVisible(true);
 	}
 	
-	public void registrarse() {
+	public void registrarse() { // Metodo para registrarse
 		Gestor GPrincipal = new Gestor();
 		String usuario = txtUsuario.getText();
 		String email = txtEmail.getText();

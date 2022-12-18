@@ -141,7 +141,7 @@ public class IU_CambiarContrasena extends JFrame {
 		panelCentral.add(lblRepetirContrasea, gbc_lblRepetirContrasea);
 		
 		pwdFRepeat = new JPasswordField();
-		pwdFRepeat.addKeyListener(new KeyAdapter() {
+		pwdFRepeat.addKeyListener(new KeyAdapter() { // Funcion del passwordField al pulsar enter
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER){
 					cambiarContrasena();
@@ -161,12 +161,14 @@ public class IU_CambiarContrasena extends JFrame {
 		contentPane.add(panelInferior, BorderLayout.SOUTH);
 		
 		JButton btnVolver = new JButton("Volver");
-		btnVolver.addKeyListener(new KeyAdapter() {
+		btnVolver.addKeyListener(new KeyAdapter() { // Funcion del boton volver al pulsar enter sobre el
 			public void keyPressed(KeyEvent e) {
-				volver();
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+					volver();
+				}
 			}
 		});
-		btnVolver.addActionListener(new ActionListener() {
+		btnVolver.addActionListener(new ActionListener() { // Funcion del boton volver al pulsar sobre el  
 			public void actionPerformed(ActionEvent e) {
 				volver();
 			}
@@ -174,13 +176,15 @@ public class IU_CambiarContrasena extends JFrame {
 		btnVolver.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
 		JButton btnCambiar = new JButton("Cambiar");
-		btnCambiar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				cambiarContrasena();
+		btnCambiar.addKeyListener(new KeyAdapter() { // Funcion del boton cambiar al pulsar enter sobre el 
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+					cambiarContrasena();
+				}
 			}
 		});
-		btnCambiar.addKeyListener(new KeyAdapter() {
-			public void keyPressed(KeyEvent e) {
+		btnCambiar.addActionListener(new ActionListener() { // Funcion del boton cambiar al pulsar sobre el 
+			public void actionPerformed(ActionEvent e) {
 				cambiarContrasena();
 			}
 		});
@@ -190,17 +194,17 @@ public class IU_CambiarContrasena extends JFrame {
 		panelInferior.add(btnCambiar);
 	}
 	
-	public void ocultar() {
+	public void ocultar() { // Metodo para cerrar ventana actual de tipo IU_CambiarContrasena
 		this.setVisible(false);
 	}
 	
-	public void volver() {
+	public void volver() { // Metodo para volver a la ventana anterior
 		IU_Identificacion iuIdentificacion = new IU_Identificacion();
 		ocultar();
 		iuIdentificacion.setVisible(true);
 	}
 	
-	public void cambiarContrasena() {
+	public void cambiarContrasena() { // Metodo para cambiar la contrasena
 		Gestor GPrincipal = new Gestor();
 		String nombreUsuario = txtUsuario.getText();
 		String pwdOld = String.valueOf(pwdFOld.getPassword());

@@ -88,7 +88,7 @@ public class IU_RecuperarContrasena extends JFrame {
 		panelCentral.add(lblIntroducirEtc, gbc_lblIntroducirEtc);
 		
 		txtEmail = new JTextField();
-		txtEmail.addKeyListener(new KeyAdapter() {
+		txtEmail.addKeyListener(new KeyAdapter() { // Funcion del textField al pulsar enter
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER){
 					recuperarContrasena();
@@ -109,12 +109,14 @@ public class IU_RecuperarContrasena extends JFrame {
 		contentPane.add(panelInferior, BorderLayout.SOUTH);
 		
 		JButton btnVolver = new JButton("Volver");
-		btnVolver.addKeyListener(new KeyAdapter() {
+		btnVolver.addKeyListener(new KeyAdapter() { // Funcion del boton volver al pulsar enter sobre el 
 			public void keyPressed(KeyEvent e) {
-				volver();
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+					volver();
+				}
 			}
 		});
-		btnVolver.addActionListener(new ActionListener() {
+		btnVolver.addActionListener(new ActionListener() { // Funcion del boton volver al pulsar sobre el 
 			public void actionPerformed(ActionEvent e) {
 				volver();
 			}
@@ -122,12 +124,14 @@ public class IU_RecuperarContrasena extends JFrame {
 		btnVolver.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
 		JButton btnRegistrarse = new JButton("Recuperar");
-		btnRegistrarse.addKeyListener(new KeyAdapter() {
+		btnRegistrarse.addKeyListener(new KeyAdapter() { // Funcion del boton recuperar al pulsar enter sobre el 
 			public void keyPressed(KeyEvent e) {
-				recuperarContrasena();
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+					recuperarContrasena();
+				}
 			}
 		});
-		btnRegistrarse.addActionListener(new ActionListener() {
+		btnRegistrarse.addActionListener(new ActionListener() { // Funcion del boton recuperar al pulsar sobre el 
 			public void actionPerformed(ActionEvent e) {
 				recuperarContrasena();
 			}
@@ -138,17 +142,17 @@ public class IU_RecuperarContrasena extends JFrame {
 		panelInferior.add(btnRegistrarse);
 	}
 
-	public void ocultar() {
+	public void ocultar() { // Metodo para cerrar ventana actual de tipo IU_RecuperarContrasena
 		this.setVisible(false);
 	}
 	
-	public void volver() {
+	public void volver() { // Metodo para volver a la ventana anterior
 		IU_Identificacion iuIdentificacion = new IU_Identificacion();
 		ocultar();
 		iuIdentificacion.setVisible(true);
 	}
 	
-	public void recuperarContrasena() {
+	public void recuperarContrasena() { // Metodo para recuperar contrasena
 		Gestor GPrincipal = new Gestor();
 		if (GPrincipal.enviarEmail(txtEmail.getText()) == 1) {
 			IU_Identificacion iuId = new IU_Identificacion();

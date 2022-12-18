@@ -106,7 +106,7 @@ public class IU_Identificacion extends JFrame {
 		panelCentral.add(lblContrasea, gbc_lblContrasea);
 		
 		pwdF = new JPasswordField();
-		pwdF.addKeyListener(new KeyAdapter() {
+		pwdF.addKeyListener(new KeyAdapter() { // Funcion del passwordField al pulsar enter
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER){
@@ -120,15 +120,17 @@ public class IU_Identificacion extends JFrame {
 		gbc_pwdF.gridx = 2;
 		gbc_pwdF.gridy = 1;
 		panelCentral.add(pwdF, gbc_pwdF);
-		
+			
 		JButton btnNewButton = new JButton("Registrarse");
 		btnNewButton.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton.addKeyListener(new KeyAdapter() {
+		btnNewButton.addKeyListener(new KeyAdapter() { // Funcion del boton registrarse al pulsar enter sobre el
 			public void keyPressed(KeyEvent e) {
-				registrarse();
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+					registrarse();
+				}
 			}
 		});
-		btnNewButton.addActionListener(new ActionListener() {
+		btnNewButton.addActionListener(new ActionListener() { // Funcion del boton registrarse al pulsar sobre el
 			public void actionPerformed(ActionEvent e) {
 				registrarse();
 			}
@@ -141,12 +143,14 @@ public class IU_Identificacion extends JFrame {
 		
 		JButton btnNewButton_1 = new JButton("Iniciar Sesión");
 		btnNewButton_1.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnNewButton_1.addKeyListener(new KeyAdapter() {
+		btnNewButton_1.addKeyListener(new KeyAdapter() { // Funcion del boton iniciar sesion al pulsar enter sobre el 
 			public void keyPressed(KeyEvent e) {
-				iniciarSesion();
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+					iniciarSesion();
+				}
 			}
 		});
-		btnNewButton_1.addActionListener(new ActionListener() {
+		btnNewButton_1.addActionListener(new ActionListener() { // Funcion del boton iniciar sesion al pulsar sobre el 
 			public void actionPerformed(ActionEvent e) {
 				iniciarSesion();
 			}
@@ -167,12 +171,14 @@ public class IU_Identificacion extends JFrame {
 		
 		JButton btnCambiarContrasea = new JButton("Cambiar contrasena");
 		btnCambiarContrasea.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnCambiarContrasea.addKeyListener(new KeyAdapter() {
+		btnCambiarContrasea.addKeyListener(new KeyAdapter() { // Funcion del boton cambiar contrasena al pulsar enter sobre el
 			public void keyPressed(KeyEvent e) {
-				cambiarContrasena();
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+					cambiarContrasena();
+				}
 			}
 		});
-		btnCambiarContrasea.addActionListener(new ActionListener() {
+		btnCambiarContrasea.addActionListener(new ActionListener() { // Funcion del boton cambiar contrasena al pulsar sobre el
 			public void actionPerformed(ActionEvent e) {
 				cambiarContrasena();
 			}
@@ -181,12 +187,14 @@ public class IU_Identificacion extends JFrame {
 		
 		JButton btnRecuperarContrasea = new JButton("Recuperar contrasena");
 		btnRecuperarContrasea.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnRecuperarContrasea.addKeyListener(new KeyAdapter() {
+		btnRecuperarContrasea.addKeyListener(new KeyAdapter() { // Funcion del boton recuperar contrasena al pulsar enter sobre el
 			public void keyPressed(KeyEvent e) {
-				recuperarContrasena();
+				if(e.getKeyCode()==KeyEvent.VK_ENTER){
+					recuperarContrasena();
+				}
 			}
 		});
-		btnRecuperarContrasea.addActionListener(new ActionListener() {
+		btnRecuperarContrasea.addActionListener(new ActionListener() { // Funcion del boton recuperar contrasena al pulsar sobre el
 			public void actionPerformed(ActionEvent e) {
 				recuperarContrasena();
 			}
@@ -194,18 +202,17 @@ public class IU_Identificacion extends JFrame {
 		panelInferior.add(btnRecuperarContrasea);
 	}
 	
-	public void ocultar() {
+	public void ocultar() { // Metodo para cerrar ventana actual de tipo IU_Identificacion
 		this.setVisible(false);
 	}
 	
-	public void registrarse() {
+	public void registrarse() { // Metodo para abrir ventana de registro
 		IU_Registrarse iuRegistrarse = new IU_Registrarse();
 		ocultar();
 		iuRegistrarse.setVisible(true);
-		
 	}
 	
-	public void iniciarSesion() {
+	public void iniciarSesion() { // Metodo para iniciar sesion, en el que se diferencia entre si es admin o si no lo es o no existe para abrir un menu u otro
 		Gestor GestorPrincipal= new Gestor();
 		String nombreUsuario = txtUsuario.getText();
 		String pwd = String.valueOf(pwdF.getPassword());
@@ -223,13 +230,13 @@ public class IU_Identificacion extends JFrame {
 		}
 	}
 	
-	public void cambiarContrasena() {
+	public void cambiarContrasena() { // Metodo para abrir ventana cambiar contrasena
 		IU_CambiarContrasena iuCambiarContrasena = new IU_CambiarContrasena();
 		ocultar();
 		iuCambiarContrasena.setVisible(true);
 	}
 	
-	public void recuperarContrasena() {
+	public void recuperarContrasena() { // Metodo para abrir ventana recuperar contrasena
 		IU_RecuperarContrasena iuRecuperarContrasena = new IU_RecuperarContrasena();
 		ocultar();
 		iuRecuperarContrasena.setVisible(true);
